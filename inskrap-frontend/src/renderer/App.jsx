@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 
 import NeuralNoiseBackground from './Components/background';
@@ -6,6 +6,7 @@ import SearchPage from './Pages/searchPage';
 import './App.css';
 
 function App() {
+  console.log("is the project running")
   return (
     <Router>
       <div className="App">

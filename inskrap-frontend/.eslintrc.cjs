@@ -1,6 +1,10 @@
 module.exports = {
   root: true,
-  env: { browser: true, es2020: true },
+  env: { 
+    browser: true, 
+    node: true, // Add Node.js environment
+    es2020: true 
+  },
   extends: [
     'eslint:recommended',
     'plugin:react/recommended',
@@ -8,8 +12,15 @@ module.exports = {
     'plugin:react-hooks/recommended',
   ],
   ignorePatterns: ['dist', '.eslintrc.cjs'],
-  parserOptions: { ecmaVersion: 'latest', sourceType: 'module' },
-  settings: { react: { version: '18.2' } },
+  parserOptions: { 
+    ecmaVersion: 'latest', 
+    sourceType: 'module' 
+  },
+  settings: { 
+    react: { 
+      version: '18.2' 
+    } 
+  },
   plugins: ['react-refresh'],
   rules: {
     'react/jsx-no-target-blank': 'off',
@@ -17,5 +28,6 @@ module.exports = {
       'warn',
       { allowConstantExport: true },
     ],
+    'no-undef': 'off', // Turn off no-undef for Node.js globals if needed
   },
 }

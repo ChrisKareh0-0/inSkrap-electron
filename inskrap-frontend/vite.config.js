@@ -1,18 +1,20 @@
-// vite.config.js
-import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react";
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+console.log("vite.config.js is running")
 
-export default defineConfig({
+const config = defineConfig({
+    
+  base: './',
   plugins: [react()],
   build: {
-    outDir: "dist", // Ensure this is set to 'dist'
+    outDir: 'dist',
   },
+  server: {
+    port: 3001, // Set the port here
+  },
+  root: './src/renderer', // This sets the root directory to ./src
 });
-//
-// import { defineConfig } from "vite";
-// import react from "@vitejs/plugin-react";
-//
-// // https://vitejs.dev/config/
-// export default defineConfig({
-//   plugins: [react()],
-// });
+
+console.log("Vite is serving files from:", config.root || process.cwd());
+
+export default config;

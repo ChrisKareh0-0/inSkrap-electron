@@ -1,19 +1,30 @@
 {
-  "name": "inSkrap_frontend",
+  "name": "inskrap-frontend",
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
-  },
+  "main": "./src/main/main.js",
+  
+    "scripts": {
+      "dev": "vite",
+      "build": "vite build",
+      "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
+      "preview": "vite preview",
+      "electron:dev": "electron-vite dev",
+      "electron:build": "electron-vite build",
+      "start": "electron ."
+    },
+  
+  
   "dependencies": {
     "axios": "^1.7.2",
+    "concurrently": "^8.2.2",
+    "electron": "^32.0.1",
+    "electron-vite": "^2.3.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-router-dom": "^6.25.1"
+    "react-router-dom": "^6.25.1",
+    "wait-on": "^8.0.0"
   },
   "devDependencies": {
     "@types/react": "^18.3.3",
