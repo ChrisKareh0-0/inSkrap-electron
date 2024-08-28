@@ -3,9 +3,9 @@ import path from 'path';
 import { dirname } from 'path';
 import { fileURLToPath } from 'url';
 
-const __filename = fileURLToPath(import.meta.url);
+const filename = fileURLToPath(import.meta.url);
 
-const __dirname = dirname(__filename);
+const dirName = dirname(filename);
 
 
 
@@ -18,7 +18,7 @@ function createWindow() {
     width: 800,
     height: 600,
     webPreferences: {
-      preload: path.resolve(__dirname, './preload.js'), // Ensure this is an absolute path
+      preload: path.resolve(dirName, './preload.js'), // Ensure this is an absolute path
       nodeIntegration: true,
       contextIsolation: false,
     },
@@ -26,7 +26,7 @@ function createWindow() {
   console.log("[+] main.mjs line 20 function CreatWindow")
 
   win.loadURL(`http://localhost:3001`);
-
+  
 }
 
 app.whenReady().then(() => {
