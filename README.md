@@ -10,7 +10,6 @@
 
 ## Features
 
-- **Google Maps Scraper:** Easily search and extract data from Google Maps.
 - **Data Display:** Visualize the scraped data in a dynamic table.
 - **PDF Export:** Export the displayed data into a well-formatted PDF.
 - **Electron Integration:** Package the web app as a cross-platform desktop application.
