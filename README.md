@@ -92,15 +92,6 @@ This will generate the executables under the `dist/` directory.
 - **Vite Dev Server Not Found:** If you encounter issues with the Vite server, make sure the `vite.config.js` is correctly configured, and the development server is running on the specified port.
 - **Electron Build Issues:** Ensure that Electron is listed as a `devDependency` in `package.json` and not as a `dependency`.
 
-## Contributing
-
-If you wish to contribute to this project:
-
-1. Fork the repository.
-2. Create a new branch (`git checkout -b feature/YourFeature`).
-3. Commit your changes (`git commit -m 'Add some feature'`).
-4. Push to the branch (`git push origin feature/YourFeature`).
-5. Open a Pull Request.
 
 ## Future Features
  - Google Voice Integration
