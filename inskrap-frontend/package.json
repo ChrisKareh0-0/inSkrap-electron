@@ -13,7 +13,7 @@
     "preview": "vite preview",
     "electron:dev": "electron-vite dev",
     "electron:build": "electron-vite build",
-    "start": "electron ."
+    "start": "concurrently \"npm run dev\" \"npx electron .\""
   },
   "build":{
     "appId": "com.wirestorm.inskrap",
