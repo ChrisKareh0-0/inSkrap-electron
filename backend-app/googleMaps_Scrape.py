@@ -6,18 +6,17 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from webdriver_manager.chrome import ChromeDriverManager
 import time
-import json
 
 def scrape_google_maps(search_query):
     chrome_options = webdriver.ChromeOptions()
-
-    service = Service(
-        ChromeDriverManager().install()
-    )
-
-    driver = webdriver.Chrome(
-        service=service, options=chrome_options
-    )
+    chrome_options.add_argument('--headless')
+    chrome_options.add_argument('--disable-gpu')
+    chrome_options.add_argument('--no-sandbox')
+    chrome_options.add_argument('--disable-dev-shm-usage')
+    chrome_options.add_argument('--window-size=1920x1080')
+    
+    service = Service(ChromeDriverManager().install())
+    driver = webdriver.Chrome(service=service, options=chrome_options)
 
     try:
         driver.get(f'https://www.google.com/maps/search/?api=1&query={search_query}')
@@ -60,11 +59,7 @@ def scrape_google_maps(search_query):
         """, scrollable_div)
 
         items = driver.find_elements(By.CSS_SELECTOR, 'div[role="feed"] > div > div[jsaction]')
-
-        results = []
-        phone_pattern = re.compile(
-            r'\b\d{2}\s?\d{3}\s?\d{3}\b'
-        )
+        phone_pattern = re.compile(r'\b\d{2}\s?\d{3}\s?\d{3}\b')
 
         for item in items:
             data = {}
@@ -97,22 +92,13 @@ def scrape_google_maps(search_query):
             try:
                 text_content = item.text
                 matches = phone_pattern.findall(text_content)
-
                 unique_phone_numbers = list(set(matches))
-
                 data['phone'] = unique_phone_numbers[0] if unique_phone_numbers else None
             except Exception:
                 pass
 
             if data.get('title'):
-                results.append(data)
-
-        return results
+                yield data  # Yield each result one by one
 
     finally:
-        time.sleep(60)
         driver.quit()
-
-if __name__ == "__main__":
-    results = scrape_google_maps('lawyer')
-    print(json.dumps(results, ensure_ascii=False, indent=2))

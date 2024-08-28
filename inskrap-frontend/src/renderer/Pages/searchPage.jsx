@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import './CSS/searchPage.css';
+import io from 'socket.io-client';
 
 function SearchPage() {
   const [keyword, setKeyword] = useState('');
@@ -10,21 +11,35 @@ function SearchPage() {
   const [loading, setLoading] = useState(false); // Add loading state
   const navigate = useNavigate();
 
+  useEffect(() => {
+    const socket = io('http://127.0.0.1:5000');
+    
+    socket.on('connect', () => {
+      console.log('Connected to server');
+    });
+
+    socket.on('new_data', (data) => {
+      setResults((prevResults) => [...prevResults, data]);
+      setLoading(false); // Set loading to false once the first data is received
+    });
+
+    return () => {
+      socket.disconnect();
+    };
+  }, []);
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     setLoading(true); // Set loading to true when the request starts
 
     try {
-      const response = await axios.post('http://127.0.0.1:5000/scrape', {
+      await axios.post('http://127.0.0.1:5000/scrape', {
         keyword,
         location,
       });
-
-      setResults(response.data);
     } catch (error) {
       console.error('There was an error with the request:', error);
-    } finally {
-      setLoading(false); // Set loading to false when the request completes
+      setLoading(false); // Ensure loading is turned off if there's an error
     }
   };
 
@@ -33,14 +48,14 @@ function SearchPage() {
       <button className="button" onClick={() => navigate('/')}>
         <div className="button-box">
           <span className="button-elem">
-            <svg viewBox="0 0 46 40" xmlns="http://www.w3.org/2000/svg">
+          <svg viewBox="0 0 46 40" xmlns="http://www.w3.org/2000/svg">
               <path
                 d="M46 20.038c0-.7-.3-1.5-.8-2.1l-16-17c-1.1-1-3.2-1.4-4.4-.3-1.2 1.1-1.2 3.3 0 4.4l11.3 11.9H3c-1.7 0-3 1.3-3 3s1.3 3 3 3h33.1l-11.3 11.9c-1 1-1.2 3.3 0 4.4 1.2 1.1 3.3.8 4.4-.3l16-17c.5-.5.8-1.1.8-1.9z"
               ></path>
             </svg>
           </span>
           <span className="button-elem">
-            <svg viewBox="0 0 46 40">
+          <svg viewBox="0 0 46 40">
               <path
                 d="M46 20.038c0-.7-.3-1.5-.8-2.1l-16-17c-1.1-1-3.2-1.4-4.4-.3-1.2 1.1-1.2 3.3 0 4.4l11.3 11.9H3c-1.7 0-3 1.3-3 3s1.3 3 3 3h33.1l-11.3 11.9c-1 1-1.2 3.3 0 4.4 1.2 1.1 3.3.8 4.4-.3l16-17c.5-.5.8-1.1.8-1.9z"
               ></path>
@@ -72,11 +87,13 @@ function SearchPage() {
         <button type="submit">Search</button>
       </form>
 
-      {loading ? (
+      {loading && (
         <div className="loader">
           <span></span>
         </div>
-      ) : (
+      )}
+
+      {!loading && (
         <div>
           <h2 style={{ color: '#fff' }}>Results</h2>
           <p style={{ color: '#fff' }}>Total Results: {results.length}</p>
@@ -89,8 +106,7 @@ function SearchPage() {
                     <th>Link</th>
                     <th>Website</th>
                     <th>Phone</th>
-                    <th>Stars</th>
-                    <th>Reviews</th>
+                    
                   </tr>
                 </thead>
                 <tbody>
@@ -108,8 +124,7 @@ function SearchPage() {
                         </a>
                       </td>
                       <td>{result.phone}</td>
-                      <td>{result.stars}</td>
-                      <td>{result.reviews}</td>
+                      
                     </tr>
                   ))}
                 </tbody>
