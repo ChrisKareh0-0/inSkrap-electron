@@ -7,30 +7,30 @@ function SearchPage() {
   const [keyword, setKeyword] = useState('');
   const [location, setLocation] = useState('');
   const [results, setResults] = useState([]);
-
-  const navigate = useNavigate()
+  const [loading, setLoading] = useState(false); // Add loading state
+  const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setLoading(true); // Set loading to true when the request starts
 
     try {
       const response = await axios.post('http://127.0.0.1:5000/scrape', {
         keyword,
-        location
+        location,
       });
 
       setResults(response.data);
     } catch (error) {
       console.error('There was an error with the request:', error);
+    } finally {
+      setLoading(false); // Set loading to false when the request completes
     }
   };
 
-
-
   return (
     <div className="search-page">
-      
-      <button className="button" onClick={()=>{navigate('/')}}>
+      <button className="button" onClick={() => navigate('/')}>
         <div className="button-box">
           <span className="button-elem">
             <svg viewBox="0 0 46 40" xmlns="http://www.w3.org/2000/svg">
@@ -48,13 +48,11 @@ function SearchPage() {
           </span>
         </div>
       </button>
-      
 
-
-      <h1 style={{color: '#fff', marginLeft: '60px'}}> inSkrap </h1>
+      <h1 style={{ color: '#fff', marginLeft: '60px' }}>inSkrap</h1>
       <form onSubmit={handleSubmit}>
         <div>
-          <label style={{color:"#fff"}}>Keyword:</label>
+          <label style={{ color: '#fff' }}>Keyword:</label>
           <input
             type="text"
             value={keyword}
@@ -63,7 +61,7 @@ function SearchPage() {
           />
         </div>
         <div>
-          <label style={{color:'#fff'}}>Location:</label>
+          <label style={{ color: '#fff' }}>Location:</label>
           <input
             type="text"
             value={location}
@@ -73,47 +71,53 @@ function SearchPage() {
         </div>
         <button type="submit">Search</button>
       </form>
-      <div>
-        <h2 style={{color: '#fff'}}>Results</h2>
-        <p style={{color:'#fff'}}> Total Results: {results.length}</p>
-        {results.length > 0 && (
-          <div>
-            
-            <table>
-              <thead>
-                <tr>
-                  <th>Title</th>
-                  <th>Link</th>
-                  <th>Website</th>
-                  <th>Phone</th>
-                  <th>Stars</th>
-                  <th>Reviews</th>
-                </tr>
-              </thead>
-              <tbody>
-                {results.map((result, index) => (
-                  <tr key={index}>
-                    <td>{result.title}</td>
-                    <td>
-                      <a href={result.link} target="_blank" rel="noopener noreferrer">
-                        <button>Map Link</button>
-                      </a>
-                    </td>
-                    <td>
-                      <a href={result.website} target="_blank" rel="noopener noreferrer">
-                        <button>Website</button>
-                      </a>
-                    </td>
-                    <td>{result.phone}</td>
-                    <td>{result.stars}</td>
-                    <td>{result.reviews}</td>
+
+      {loading ? (
+        <div className="loader">
+          <span></span>
+        </div>
+      ) : (
+        <div>
+          <h2 style={{ color: '#fff' }}>Results</h2>
+          <p style={{ color: '#fff' }}>Total Results: {results.length}</p>
+          {results.length > 0 && (
+            <div>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Title</th>
+                    <th>Link</th>
+                    <th>Website</th>
+                    <th>Phone</th>
+                    <th>Stars</th>
+                    <th>Reviews</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
-      </div>
+                </thead>
+                <tbody>
+                  {results.map((result, index) => (
+                    <tr key={index}>
+                      <td>{result.title}</td>
+                      <td>
+                        <a href={result.link} target="_blank" rel="noopener noreferrer">
+                          <button>Map Link</button>
+                        </a>
+                      </td>
+                      <td>
+                        <a href={result.website} target="_blank" rel="noopener noreferrer">
+                          <button>Website</button>
+                        </a>
+                      </td>
+                      <td>{result.phone}</td>
+                      <td>{result.stars}</td>
+                      <td>{result.reviews}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 }
