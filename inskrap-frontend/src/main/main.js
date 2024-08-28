@@ -2,16 +2,12 @@ import { app, BrowserWindow } from 'electron';
 import path from 'path';
 import { dirname } from 'path';
 import { fileURLToPath } from 'url';
+import 'dotenv/config';  // Load .env file
 
 const filename = fileURLToPath(import.meta.url);
-
 const dirName = dirname(filename);
 
-
-
-
 // const preloadPath = path.join(__dirname, 'preload.js');
-
 
 function createWindow() {
   const win = new BrowserWindow({
@@ -25,7 +21,12 @@ function createWindow() {
   });
   console.log("[+] main.mjs line 20 function CreatWindow")
 
-  win.loadURL(`http://localhost:3001`);
+  // Check if it's running in development or production
+  if (process.env.NODE_ENV === 'development') {
+    win.loadURL('http://localhost:3001');
+  } else {
+    win.loadFile(path.join(dirName, 'dist/renderer', 'index.html'));
+  }
   
 }
 
