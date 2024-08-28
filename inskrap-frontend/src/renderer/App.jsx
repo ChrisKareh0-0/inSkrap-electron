@@ -25,10 +25,11 @@ function Home() {
     <div className="home">
       <NeuralNoiseBackground />
       <div className="content">
-        <h1>Welcome to inSkrap</h1>
-        <p>This is supposed to be the landing page.</p>
+        <h1 style={{color: '#fff'}}>Welcome to inSkrap</h1>
+        {/* <p style={{color:'#fff'}}>This is supposed to be the landing page.</p> */}
         <Link to="/search">
-          <button>Go to Search Page</button>
+        <button className="btn"><i className="animation"></i>Get Started<i className="animation"></i>
+        </button>
         </Link>
       </div>
     </div>
