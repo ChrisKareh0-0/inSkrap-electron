@@ -18,9 +18,9 @@ function createWindow() {
     width: 800,
     height: 600,
     webPreferences: {
-      preload: path.resolve(dirName, 'preload.js'), // Ensure this is an absolute path
+      preload: path.resolve(dirName, 'preload.mjs'), // Ensure this is an absolute path
       nodeIntegration: true,
-      contextIsolation: false,
+      contextIsolation: true,
     },
   });
   console.log("[+] main.mjs line 20 function CreatWindow")
