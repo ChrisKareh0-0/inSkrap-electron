@@ -5,7 +5,7 @@
   "type": "module",
   "main": "./src/main/main.js",
   "description": "Help you find your client",
-  "author":  "Chris",
+  "author": "Chris",
   "scripts": {
     "dev": "vite",
     "build": "concurrently \"NODE_ENV=production\" \"electron-builder\"",
