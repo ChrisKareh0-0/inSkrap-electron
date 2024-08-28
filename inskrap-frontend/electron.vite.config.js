@@ -14,7 +14,7 @@ export default defineConfig({
     build: {
       outDir: 'dist/preload',
       rollupOptions: {
-        input: path.resolve('./src/main/preload.js'), // Ensure this path is correct
+        input: path.resolve('./src/main/preload.mjs'), // Ensure this path is correct
       }
     }
   },
