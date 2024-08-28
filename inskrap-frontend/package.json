@@ -5,7 +5,7 @@
   "type": "module",
   "main": "./src/main/main.js",
   "description": "Help you find your client",
-  "author": "Chris",
+  "author":  "Chris",
   "scripts": {
     "dev": "vite",
     "build": "concurrently \"NODE_ENV=production\" \"electron-builder\"",
@@ -49,6 +49,7 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.25.1",
+    "socket.io-client": "^4.7.5",
     "wait-on": "^8.0.0"
   },
   "devDependencies": {

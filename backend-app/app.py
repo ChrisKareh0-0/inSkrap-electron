@@ -1,9 +1,11 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request
 from flask_cors import CORS
+from flask_socketio import SocketIO
 from googleMaps_Scrape import scrape_google_maps
 
 app = Flask(__name__)
 CORS(app)
+socketio = SocketIO(app, cors_allowed_origins="*")
 
 @app.route('/scrape', methods=['POST'])
 def scrape():
@@ -14,10 +16,11 @@ def scrape():
     # Construct the search query
     search_query = f"{keyword} in {location}"
     
-    # Call the scrape_google_maps function
-    results = scrape_google_maps(search_query)
-
-    return jsonify(results)
+    # Start the scraping process
+    for result in scrape_google_maps(search_query):
+        socketio.emit('new_data', result)
+    
+    return {"status": "Scraping started"}
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    socketio.run(app, debug=True)
