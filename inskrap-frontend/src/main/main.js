@@ -14,7 +14,7 @@ function createWindow() {
     width: 800,
     height: 600,
     webPreferences: {
-      preload: path.resolve(dirName, 'preload.mjs'), // Ensure this is an absolute path
+      preload: path.resolve(dirName, '../preload/preload.mjs'), // Ensure this is an absolute path
       nodeIntegration: true,
       contextIsolation: true,
     },
@@ -25,7 +25,7 @@ function createWindow() {
   if (process.env.NODE_ENV === 'development') {
     win.loadURL('http://localhost:3001');
   } else {
-    win.loadFile(path.resolve(dirName, "../renderer/dist/index.html"));
+    win.loadFile(path.resolve(dirName, "../renderer/index.html"));
   }
   
 }
