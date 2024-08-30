@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
+import { Route, Routes, Link, HashRouter } from 'react-router-dom';
 
 import NeuralNoiseBackground from './Components/background';
 import SearchPage from './Pages/searchPage';
@@ -8,7 +8,7 @@ import './App.css';
 function App() {
   console.log("is the project running")
   return (
-    <Router>
+    <HashRouter>
       <div className="App">
         {/* <NeuralNoiseBackground /> */}
         <Routes>
@@ -16,7 +16,7 @@ function App() {
           <Route path="/search" element={<SearchPage />} />
         </Routes>
       </div>
-    </Router>
+    </HashRouter>
   );
 }
 
