@@ -13,7 +13,7 @@
     "preview": "vite preview",
     "electron:dev": "electron-vite dev",
     "electron:build": "electron-vite build",
-    "start": "concurrently \"cross-env NODE_ENV=development\" \"npm run dev\" \"npx electron .\" \"python ../backend-app/app.py\""
+    "start": "electron-vite build && concurrently \"cross-env NODE_ENV=development\" \"npm run dev\" \"npx electron .\" \"python ../backend-app/app.py\""
   },
   "build": {
     "appId": "com.wirestorm.inskrap",
@@ -23,8 +23,8 @@
       "output": "dist_electron"
     },
     "files": [
-      "./dist/**/*",
-      "./package.json"
+      "dist/**/*",
+      "package.json"
     ],
     "extraResources": [
       {
