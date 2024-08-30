@@ -8,29 +8,30 @@
   "author": "Chris",
   "scripts": {
     "dev": "vite",
-    "build": "concurrently \"NODE_ENV=production\" \"electron-builder\"",
+    "build": "cross-env NODE_ENV=production electron-builder",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "electron:dev": "electron-vite dev",
     "electron:build": "electron-vite build",
-    "start": "concurrently \"NODE_ENV=development\" \"npm run dev\" \"npx electron .\" \"python ../backend-app/app.py\""
+    "start": "concurrently \"cross-env NODE_ENV=development\" \"npm run dev\" \"npx electron .\" \"python ../backend-app/app.py\""
   },
   "build": {
     "appId": "com.wirestorm.inskrap",
     "productName": "inSkrap",
     "directories": {
-      "buildResources": "assets"
+      "buildResources": "assets",
+      "output": "dist_electron"
     },
     "files": [
-      "dist/**/*",
+      "./dist/**/*",
       "src/main/**/*",
       "src/renderer/**/*",
-      "package.json"
+      "./package.json"
     ],
     "extraResources": [
       {
-        "from": "backend-app/",
-        "to": "backend-app/",
+        "from": "../backend-app/",
+        "to": "dist/backend/",
         "filter": [
           "**/*"
         ]
@@ -42,8 +43,9 @@
     }
   },
   "dependencies": {
-    "axios": "^1.7.2",
+    "axios": "^1.7.5",
     "concurrently": "^8.2.2",
+    "cross-env": "^7.0.3",
     "dotenv": "^16.4.5",
     "electron-vite": "^2.3.0",
     "react": "^18.3.1",

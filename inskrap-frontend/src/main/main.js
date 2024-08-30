@@ -25,7 +25,7 @@ function createWindow() {
   if (process.env.NODE_ENV === 'development') {
     win.loadURL('http://localhost:3001');
   } else {
-    win.loadFile(path.join(dirName, 'dist/renderer', 'index.html'));
+    win.loadFile(path.resolve(dirName, "../renderer/index.html"));
   }
   
 }
