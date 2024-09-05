@@ -2,11 +2,6 @@ from flask import Flask, request
 from flask_cors import CORS
 from flask_socketio import SocketIO
 from googleMaps_Scrape import scrape_google_maps
-import os
-from dotenv import load_dotenv
-
-load_dotenv()
-node_env = os.getenv('NODE_ENV')
 
 app = Flask(__name__)
 CORS(app)
@@ -28,10 +23,4 @@ def scrape():
     return {"status": "Scraping started"}
 
 if __name__ == '__main__':
-    if node_env == 'production':
-        # Use a production WSGI server (e.g., Waitress) in production
-        from waitress import serve
-        serve(app, host='0.0.0.0', port=5000)
-    else:
-        # Use Flask-SocketIO's built-in server for development/testing
-        socketio.run(app, debug=True, allow_unsafe_werkzeug=True)
+    socketio.run(app, host='127.0.0.1', port=5000, debug=True, allow_unsafe_werkzeug=True)
