@@ -1,9 +1,9 @@
 import React from 'react'
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import './CSS/searchPage.css';
-import io from 'socket.io-client';
+// import io from 'socket.io-client';
 
 function SearchPage() {
   const [keyword, setKeyword] = useState('');
@@ -12,35 +12,25 @@ function SearchPage() {
   const [loading, setLoading] = useState(false); // Add loading state
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const socket = io('http://127.0.0.1:5000');
-    
-    socket.on('connect', () => {
-      console.log('Connected to server');
-    });
-
-    socket.on('new_data', (data) => {
-      setResults((prevResults) => [...prevResults, data]);
-      setLoading(false); // Set loading to false once the first data is received
-    });
-
-    return () => {
-      socket.disconnect();
-    };
-  }, []);
+ 
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    setLoading(true); // Set loading to true when the request starts
+    setLoading(true); 
 
     try {
-      await axios.post('http://127.0.0.1:5000/scrape', {
+      // Fetch data from the Flask backend
+      const response = await axios.post('http://127.0.0.1:5000/scrape', {
         keyword,
         location,
       });
+
+      // Set the results once the response is returned
+      setResults(response.data);
     } catch (error) {
       console.error('There was an error with the request:', error);
-      setLoading(false); // Ensure loading is turned off if there's an error
+    } finally {
+      setLoading(false); // Stop loading indicator
     }
   };
 
