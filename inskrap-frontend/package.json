@@ -8,12 +8,12 @@
   "author": "Chris",
   "scripts": {
     "dev": "vite",
-    "build": "electron-vite build && cross-env NODE_ENV=production electron-builder",
+    "build": "cross-env NODE_ENV=production electron-vite build && electron-builder",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "electron:dev": "electron-vite dev",
     "electron:build": "electron-vite build",
-    "start": "electron-vite build && concurrently \"cross-env NODE_ENV=development\" \"npm run dev\" \"npx electron .\" \"python ../backend-app/app.py\""
+    "start": "cross-env NODE_ENV=development electron-vite build && concurrently \"npm run dev\" \"npx electron .\" \"python ../backend-app/app.py\""
   },
   "build": {
     "appId": "com.wirestorm.inskrap",
