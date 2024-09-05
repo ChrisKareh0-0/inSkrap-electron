@@ -16,7 +16,11 @@ function startPythonBackend() {
     process.env.NODE_ENV === "production"
       ? path.join(dirName, "../../../python-backend/app.py")
       : path.join(dirName, "../../../backend-app/app.py");
-  pythonProcess = spawn("python", [script]);
+
+  // Set environment variable for the Python process
+  const env = { ...process.env, FLASK_ENV: process.env.NODE_ENV };
+
+  pythonProcess = spawn("python", [script], { env });
 
   pythonProcess.stdout.on("data", (data) => {
     console.log(`Python stdout: ${data}`);
