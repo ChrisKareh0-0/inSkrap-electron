@@ -2,7 +2,7 @@ import { app, BrowserWindow } from "electron";
 import path from "path";
 import { dirname } from "path";
 import { fileURLToPath } from "url";
-import { spawn } from "child_process";
+import { spawn, exec } from "child_process";
 import "dotenv/config";
 
 const filename = fileURLToPath(import.meta.url);
@@ -77,6 +77,18 @@ app.whenReady().then(() => {
   });
 });
 
+function killPythonProcess(pid) {
+  exec(`taskkill /PID ${pid} /T /F`, (error, stdout, stderr) => {
+    if (error) {
+      console.error(`Error killing process: ${error.message}`);
+    }
+    if (stderr) {
+      console.error(`stderr: ${stderr}`);
+    }
+    console.log(`stdout: ${stdout}`);
+  });
+}
+
 app.on("window-all-closed", () => {
   if (process.platform !== "darwin") {
     app.quit();
@@ -84,5 +96,5 @@ app.on("window-all-closed", () => {
 });
 
 app.on("before-quit", () => {
-  if (pythonProcess) pythonProcess.kill();
+  killPythonProcess(pythonProcess.pid);
 });
