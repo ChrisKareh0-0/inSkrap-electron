@@ -8,13 +8,12 @@
   "author": "Chris",
   "scripts": {
     "dev": "vite",
-    "build": "cross-env NODE_ENV=production electron-vite build && electron-builder",
+    "build": "electron-vite build && electron-builder",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "electron:dev": "concurrently \"vite\" \"python ../backend-app/app.py\" \"wait-on http://localhost:3000 && npx electron .\"",
-
     "electron:build": "electron-vite build",
-    "start": "cross-env NODE_ENV=development electron-vite build && concurrently \"npm run dev\" \"npx electron .\" \"python ../backend-app/app.py\""
+    "start": "electron-vite build && concurrently \"npm run dev\" \"cross-env NODE_ENV=development npx electron .\""
   },
   "build": {
     "appId": "com.wirestorm.inskrap",
@@ -29,8 +28,8 @@
     ],
     "extraResources": [
       {
-        "from": "../backend-app/",
-        "to": "python-backend/",
+        "from": "../backend-app/dist/",
+        "to": "",
         "filter": [
           "**/*"
         ]
@@ -44,7 +43,6 @@
   "dependencies": {
     "axios": "^1.7.5",
     "concurrently": "^8.2.2",
-    "cross-env": "^7.0.3",
     "dotenv": "^16.4.5",
     "electron-vite": "^2.3.0",
     "react": "^18.3.1",
@@ -57,6 +55,7 @@
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react": "^4.3.1",
+    "cross-env": "^7.0.3",
     "electron": "^32.0.1",
     "electron-builder": "^24.13.3",
     "eslint": "^8.57.0",

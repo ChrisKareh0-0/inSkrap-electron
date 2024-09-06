@@ -2,36 +2,47 @@ import { app, BrowserWindow } from "electron";
 import path from "path";
 import { dirname } from "path";
 import { fileURLToPath } from "url";
-import { spawn } from "child_process"; // Import spawn to run Python script
-import "dotenv/config"; // Load .env file
+import { spawn } from "child_process";
+import "dotenv/config";
 
 const filename = fileURLToPath(import.meta.url);
 const dirName = dirname(filename);
 
-// Declare variable to hold the Python process
 let pythonProcess = null;
 
 function startPythonBackend() {
-  const script =
-    process.env.NODE_ENV === "production"
-      ? path.join(dirName, "../../../python-backend/app.py")
-      : path.join(dirName, "../../../backend-app/app.py");
+  let command;
+  let args = [];
+  let cwd;
 
-  // Set environment variable for the Python process
-  const env = { ...process.env, FLASK_ENV: process.env.NODE_ENV };
+  if (process.env.NODE_ENV === "development") {
+    command = "python";
+    args = [path.join(dirName, "../../../backend-app/app.py")];
+    cwd = path.dirname(args[0]);
+  } else {
+    command = path.join(process.resourcesPath, "server.exe");
+    cwd = path.dirname(command);
+  }
 
-  pythonProcess = spawn("python", [script], { env });
+  // Use spawn to run the appropriate command
+  pythonProcess = spawn(command, args, {
+    cwd, // Set the current working directory
+  });
 
   pythonProcess.stdout.on("data", (data) => {
-    console.log(`Python stdout: ${data}`);
+    console.log(`stdout: ${data}`);
   });
 
   pythonProcess.stderr.on("data", (data) => {
-    console.error(`Python stderr: ${data}`);
+    console.error(`stderr: ${data}`);
+  });
+
+  pythonProcess.on("error", (err) => {
+    console.error(`Error starting backend: ${err.message}`);
   });
 
   pythonProcess.on("close", (code) => {
-    console.log(`Python process exited with code ${code}`);
+    console.log(`Process exited with code ${code}`);
   });
 }
 
@@ -56,7 +67,7 @@ function createWindow() {
 }
 
 app.whenReady().then(() => {
-  startPythonBackend(); // Start the Python backend
+  startPythonBackend();
   createWindow();
 
   app.on("activate", () => {
@@ -73,5 +84,5 @@ app.on("window-all-closed", () => {
 });
 
 app.on("before-quit", () => {
-  if (pythonProcess) pythonProcess.kill(); // Ensure the Python process is terminated when the app quits
+  if (pythonProcess) pythonProcess.kill();
 });
