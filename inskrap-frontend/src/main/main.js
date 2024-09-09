@@ -2,7 +2,7 @@ import { app, BrowserWindow } from "electron";
 import path from "path";
 import { dirname } from "path";
 import { fileURLToPath } from "url";
-import { spawn, exec } from "child_process";
+import { spawn, execSync } from "child_process";
 import "dotenv/config";
 
 const filename = fileURLToPath(import.meta.url);
@@ -24,7 +24,6 @@ function startPythonBackend() {
     cwd = path.dirname(command);
   }
 
-  // Use spawn to run the appropriate command
   pythonProcess = spawn(command, args, {
     cwd, // Set the current working directory
   });
@@ -43,6 +42,7 @@ function startPythonBackend() {
 
   pythonProcess.on("close", (code) => {
     console.log(`Process exited with code ${code}`);
+    pythonProcess = null; // Ensure pythonProcess is set to null when closed
   });
 }
 
@@ -56,9 +56,9 @@ function createWindow() {
       contextIsolation: true,
     },
   });
+
   console.log("[+] main.mjs line 20 function createWindow");
 
-  // Check if it's running in development or production
   if (process.env.NODE_ENV === "development") {
     win.loadURL("http://localhost:3001");
   } else {
@@ -77,24 +77,29 @@ app.whenReady().then(() => {
   });
 });
 
-function killPythonProcess(pid) {
-  exec(`taskkill /PID ${pid} /T /F`, (error, stdout, stderr) => {
-    if (error) {
-      console.error(`Error killing process: ${error.message}`);
+function killPythonProcess() {
+  if (pythonProcess && pythonProcess.pid) {
+    try {
+      execSync(`taskkill /PID ${pythonProcess.pid} /T /F`); // Synchronously kill the process
+      console.log(`Python process ${pythonProcess.pid} killed`);
+    } catch (error) {
+      console.error(`Error killing Python process: ${error.message}`);
     }
-    if (stderr) {
-      console.error(`stderr: ${stderr}`);
-    }
-    console.log(`stdout: ${stdout}`);
-  });
+  }
 }
+
+app.on("before-quit", (event) => {
+  if (pythonProcess && pythonProcess.pid) {
+    event.preventDefault(); // Prevent the app from quitting immediately
+    killPythonProcess(); // Kill the Python process
+
+    // Once the process is killed, quit the app
+    app.quit();
+  }
+});
 
 app.on("window-all-closed", () => {
   if (process.platform !== "darwin") {
     app.quit();
   }
-});
-
-app.on("before-quit", () => {
-  killPythonProcess(pythonProcess.pid);
 });
