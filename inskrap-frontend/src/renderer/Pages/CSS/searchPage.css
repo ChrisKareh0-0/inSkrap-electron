@@ -1,64 +1,61 @@
 .search-page {
-    text-align: center;
-    padding: 20px;
-  }
-  
-  form {
-    margin: 20px 0;
-  }
-  
-  label {
-    margin-right: 10px;
-  }
-  
-  input {
-    margin: 10px;
-  }
-  
-  button {
-    margin: 10px;
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
-  }
-  
-  table {
-    margin: 20px auto;
-    border-collapse: collapse;
-    width: 80%;
-  }
-  
-  th, td {
-    border: 1px solid #fff;
-    padding: 8px;
-  }
-  
-  th {
-    background-color: #333; /* Dark background color */
-    color: #fff; /* White text color */
-    text-align: left;
-  }
-  
-  tbody tr {
-    background-color: #333;
-    color: #fff;
-  }
-  
-  
-  
-  a button {
-    background: none;
-    border: none;
-    color: #fff;
-    text-decoration: underline;
-    cursor: pointer;
-  }
-  
-  a button:hover {
-    text-decoration: none;
-  }
-  
-  
+  text-align: center;
+  padding: 20px;
+}
+
+form {
+  margin: 20px 0;
+}
+
+label {
+  margin-right: 10px;
+}
+
+input {
+  margin: 10px;
+}
+
+button {
+  margin: 10px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+table {
+  margin: 20px auto;
+  border-collapse: collapse;
+  width: 80%;
+}
+
+th,
+td {
+  border: 1px solid #fff;
+  padding: 8px;
+}
+
+th {
+  background-color: #333; /* Dark background color */
+  color: #fff; /* White text color */
+  text-align: left;
+}
+
+tbody tr {
+  background-color: #333;
+  color: #fff;
+}
+
+a button {
+  background: none;
+  border: none;
+  color: #fff;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+a button:hover {
+  text-decoration: none;
+}
 
 .button {
   display: block;
@@ -72,7 +69,6 @@
   cursor: pointer;
   border: 0;
   margin-top: 40px;
-  
 }
 
 .button:before,
@@ -135,6 +131,30 @@
   transform: translateX(-56px);
 }
 
+/* Floating button */
+.floating-button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: rgb(12, 144, 0);
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  width: 100px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0px 8px rgba(0, 0, 0, 0.3);
+  font-size: 1rem;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.floating-button:hover {
+  background-color: rgb(7, 81, 0);
+}
+/* Floating button */
 
 .loader {
   position: relative;
@@ -142,7 +162,7 @@
   height: 150px;
   background: transparent;
   border-radius: 50%;
-  box-shadow: 25px 25px 75px rgba(0,0,0,0.55);
+  box-shadow: 25px 25px 75px rgba(0, 0, 0, 0.55);
   border: 1px solid #333;
   display: flex;
   align-items: center;
@@ -152,25 +172,25 @@
 }
 
 .loader::before {
-  content: '';
+  content: "";
   position: absolute;
   inset: 20px;
   background: transparent;
   border: 1px dashed#444;
   border-radius: 50%;
-  box-shadow: inset -5px -5px 25px rgba(0,0,0,0.25),
-  inset 5px 5px 35px rgba(0,0,0,0.25);
+  box-shadow: inset -5px -5px 25px rgba(0, 0, 0, 0.25),
+    inset 5px 5px 35px rgba(0, 0, 0, 0.25);
 }
 
 .loader::after {
-  content: '';
+  content: "";
   position: absolute;
   width: 50px;
   height: 50px;
   border-radius: 50%;
   border: 1px dashed#444;
-  box-shadow: inset -5px -5px 25px rgba(0,0,0,0.25),
-  inset 5px 5px 35px rgba(0,0,0,0.25);
+  box-shadow: inset -5px -5px 25px rgba(0, 0, 0, 0.25),
+    inset 5px 5px 35px rgba(0, 0, 0, 0.25);
 }
 
 .loader span {
@@ -186,7 +206,7 @@
 }
 
 .loader span::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
