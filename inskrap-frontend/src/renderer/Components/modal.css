@@ -102,6 +102,7 @@
   transition: 0.2s;
 }
 
-.modal-submit-button:hover {
+.modal-submit-button:hover,
+.modal-submit-button:focus {
   background-color: rgb(7, 81, 0);
 }

@@ -218,7 +218,8 @@ a button:hover {
   transition: 0.2s;
 }
 
-.floating-button:hover {
+.floating-button:hover,
+.floating-button:focus {
   background-color: rgb(7, 81, 0);
 }
 /* Floating button */
@@ -329,7 +330,8 @@ a button:hover {
   text-align: center;
 }
 
-.search-button:hover {
+.search-button:hover,
+.search-button:focus {
   background-color: rgb(7, 81, 0);
 }
 /* Revamped Search Page Styles */
