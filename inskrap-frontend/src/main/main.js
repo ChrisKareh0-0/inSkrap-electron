@@ -89,12 +89,17 @@ function killPythonProcess() {
 }
 
 app.on("before-quit", (event) => {
-  if (pythonProcess && pythonProcess.pid) {
-    event.preventDefault(); // Prevent the app from quitting immediately
-    killPythonProcess(); // Kill the Python process
+  if (process.env.NODE_ENV === "development") {
+    if (pythonProcess) pythonProcess.kill();
+    app.exit();
+  } else {
+    if (pythonProcess && pythonProcess.pid) {
+      event.preventDefault(); // Prevent the app from quitting immediately
+      killPythonProcess(); // Kill the Python process
 
-    // Once the process is killed, quit the app
-    app.quit();
+      // Once the process is killed, exit the app
+      app.exit();
+    }
   }
 });
 
