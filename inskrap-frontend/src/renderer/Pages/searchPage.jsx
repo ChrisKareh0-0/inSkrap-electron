@@ -119,7 +119,11 @@ function SearchPage() {
                           <span>No website detected</span>
                         )}
                       </td>
-                      <td>{result.phone}</td>
+                      {result.phone ? (
+                        <td>{result.phone}</td>
+                      ) : (
+                        <td>No phone detected</td>
+                      )}
                     </tr>
                   ))}
                 </tbody>
