@@ -1,8 +1,3 @@
-.search-page {
-  text-align: center;
-  padding: 20px;
-}
-
 form {
   margin: 20px 0;
 }
@@ -58,7 +53,6 @@ a button:hover {
 }
 
 .button {
-  display: block;
   position: absolute;
   width: 56px;
   height: 56px;
@@ -68,7 +62,8 @@ a button:hover {
   background-color: transparent;
   cursor: pointer;
   border: 0;
-  margin-top: 40px;
+  top: 40px;
+  left: 40px;
 }
 
 .button:before,
@@ -131,31 +126,6 @@ a button:hover {
   transform: translateX(-56px);
 }
 
-/* Floating button */
-.floating-button {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  background-color: rgb(12, 144, 0);
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  width: 100px;
-  height: 60px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 0px 8px rgba(0, 0, 0, 0.3);
-  font-size: 1rem;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-.floating-button:hover {
-  background-color: rgb(7, 81, 0);
-}
-/* Floating button */
-
 .loader {
   position: relative;
   width: 150px;
@@ -168,7 +138,7 @@ a button:hover {
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  margin-left: 60px;
+  margin-left: 25px;
 }
 
 .loader::before {
@@ -227,3 +197,139 @@ a button:hover {
     transform: rotate(360deg);
   }
 }
+
+/* Floating button */
+.floating-button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: rgb(12, 144, 0);
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  width: 100px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0px 8px rgba(0, 0, 0, 0.3);
+  font-size: 1rem;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.floating-button:hover {
+  background-color: rgb(7, 81, 0);
+}
+/* Floating button */
+
+/* Revamped Search Page Styles */
+.search-page {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+.main-title {
+  width: 100%;
+  color: #fff;
+  margin-bottom: 0.2rem;
+}
+
+.search-form {
+  max-width: 1000px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.search-container {
+  max-width: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.search-container label {
+  text-align: left;
+  width: 100%;
+  font-weight: 500;
+  color: rgb(228, 228, 228);
+  margin-top: 0.2rem;
+}
+
+.keyword-input {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid rgb(118, 118, 118);
+  border-top: 0px;
+  border-left: 0px;
+  border-right: 0px;
+  border-radius: 4px 4px 0px 0px;
+  background-color: transparent;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.2s;
+  color: rgb(200, 200, 200);
+}
+
+.keyword-input:hover,
+.keyword-input:focus {
+  background-color: rgb(5, 58, 0, 0.3);
+  border-color: rgb(0, 150, 0);
+  color: rgb(0, 200, 0);
+}
+
+.keyword-input:hover::placeholder,
+.keyword-input:focus::placeholder {
+  color: rgb(0, 200, 0);
+}
+
+.location-input {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid rgb(118, 118, 118);
+  border-top: 0px;
+  border-left: 0px;
+  border-right: 0px;
+  border-radius: 4px 4px 0px 0px;
+  background-color: transparent;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.2s;
+  color: rgb(200, 200, 200);
+}
+
+.location-input:hover,
+.location-input:focus {
+  background-color: rgb(5, 58, 0, 0.3);
+  border-color: rgb(0, 150, 0);
+  color: rgb(0, 200, 0);
+}
+
+.location-input:hover::placeholder,
+.location-input:focus::placeholder {
+  color: rgb(0, 200, 0);
+}
+
+.search-button {
+  background-color: rgb(12, 144, 0);
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  width: 100px;
+  height: 40px;
+  box-shadow: 0 0px 8px rgba(0, 0, 0, 0.3);
+  font-size: 1rem;
+  cursor: pointer;
+  transition: 0.2s;
+  text-align: center;
+}
+
+.search-button:hover {
+  background-color: rgb(7, 81, 0);
+}
+/* Revamped Search Page Styles */

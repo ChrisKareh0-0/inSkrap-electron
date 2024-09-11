@@ -61,27 +61,33 @@ function SearchPage() {
           </div>
         </button>
 
-        <h1 style={{ color: "#fff", marginLeft: "60px" }}>inSkrap</h1>
-        <form onSubmit={handleSubmit}>
-          <div>
-            <label style={{ color: "#fff" }}>Keyword:</label>
+        <h1 className="main-title">inSkrap</h1>
+        <form className="search-form" onSubmit={handleSubmit}>
+          <div className="search-container">
+            <label>Keyword:</label>
             <input
+              className="keyword-input"
               type="text"
               value={keyword}
+              placeholder="Enter keyword"
               onChange={(e) => setKeyword(e.target.value)}
               required
             />
           </div>
-          <div>
-            <label style={{ color: "#fff" }}>Location:</label>
+          <div className="search-container">
+            <label>Location:</label>
             <input
+              className="location-input"
               type="text"
               value={location}
+              placeholder="Enter location"
               onChange={(e) => setLocation(e.target.value)}
               required
             />
           </div>
-          <button type="submit">Search</button>
+          <button className="search-button" type="submit">
+            Search
+          </button>
         </form>
 
         {loading && (
