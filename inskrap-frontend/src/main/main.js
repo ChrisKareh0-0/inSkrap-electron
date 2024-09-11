@@ -90,7 +90,7 @@ function killPythonProcess() {
 
 app.on("before-quit", (event) => {
   if (process.env.NODE_ENV === "development") {
-    if (pythonProcess) pythonProcess.kill();
+    pythonProcess.kill();
     app.exit();
   } else {
     if (pythonProcess && pythonProcess.pid) {
@@ -106,5 +106,12 @@ app.on("before-quit", (event) => {
 app.on("window-all-closed", () => {
   if (process.platform !== "darwin") {
     app.quit();
+  }
+});
+
+// Ensure the Python process is terminated when the app exits
+process.on("exit", () => {
+  if (pythonProcess && pythonProcess.pid) {
+    pythonProcess.kill();
   }
 });
