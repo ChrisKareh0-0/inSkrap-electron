@@ -4,7 +4,6 @@ import { dirname } from "path";
 import { fileURLToPath } from "url";
 import { spawn, execSync } from "child_process";
 import "dotenv/config";
-import os from "os";
 
 const filename = fileURLToPath(import.meta.url);
 const dirName = dirname(filename);
@@ -81,7 +80,7 @@ app.on("before-quit", (event) => {
     app.exit();
   } else {
     if (pythonProcess && pythonProcess.pid) {
-      if (os.platform() === "win32") {
+      if (process.platform === "win32") {
         event.preventDefault();
         killPythonProcess();
         app.exit();
