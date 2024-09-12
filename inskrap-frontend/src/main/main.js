@@ -4,6 +4,7 @@ import { dirname } from "path";
 import { fileURLToPath } from "url";
 import { spawn, execSync } from "child_process";
 import "dotenv/config";
+import os from "os";
 
 const filename = fileURLToPath(import.meta.url);
 const dirName = dirname(filename);
@@ -28,18 +29,6 @@ function startPythonBackend() {
     cwd, // Set the current working directory
   });
 
-  pythonProcess.stdout.on("data", (data) => {
-    console.log(`stdout: ${data}`);
-  });
-
-  pythonProcess.stderr.on("data", (data) => {
-    console.error(`stderr: ${data}`);
-  });
-
-  pythonProcess.on("error", (err) => {
-    console.error(`Error starting backend: ${err.message}`);
-  });
-
   pythonProcess.on("close", (code) => {
     console.log(`Process exited with code ${code}`);
     pythonProcess = null; // Ensure pythonProcess is set to null when closed
@@ -51,13 +40,11 @@ function createWindow() {
     width: 800,
     height: 600,
     webPreferences: {
-      preload: path.resolve(dirName, "../preload/preload.mjs"), // Ensure this is an absolute path
+      preload: path.resolve(dirName, "../preload/preload.mjs"),
       nodeIntegration: true,
       contextIsolation: true,
     },
   });
-
-  console.log("[+] main.mjs line 20 function createWindow");
 
   if (process.env.NODE_ENV === "development") {
     win.loadURL("http://localhost:3001");
@@ -80,7 +67,7 @@ app.whenReady().then(() => {
 function killPythonProcess() {
   if (pythonProcess && pythonProcess.pid) {
     try {
-      execSync(`taskkill /PID ${pythonProcess.pid} /T /F`); // Synchronously kill the process
+      execSync(`taskkill /PID ${pythonProcess.pid} /T /F`);
       console.log(`Python process ${pythonProcess.pid} killed`);
     } catch (error) {
       console.error(`Error killing Python process: ${error.message}`);
@@ -94,11 +81,14 @@ app.on("before-quit", (event) => {
     app.exit();
   } else {
     if (pythonProcess && pythonProcess.pid) {
-      event.preventDefault(); // Prevent the app from quitting immediately
-      killPythonProcess(); // Kill the Python process
-
-      // Once the process is killed, exit the app
-      app.exit();
+      if (os.platform() === "win32") {
+        event.preventDefault();
+        killPythonProcess();
+        app.exit();
+      } else {
+        pythonProcess.kill();
+        app.exit();
+      }
     }
   }
 });
@@ -109,7 +99,6 @@ app.on("window-all-closed", () => {
   }
 });
 
-// Ensure the Python process is terminated when the app exits
 process.on("exit", () => {
   if (pythonProcess && pythonProcess.pid) {
     pythonProcess.kill();
