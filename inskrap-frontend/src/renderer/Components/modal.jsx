@@ -30,6 +30,11 @@ function Modal({ isVisible, onClose }) {
           placeholder="Enter the message here"
           className="modal-input"
         />
+        <label className="checkbox-container">
+          <input className="unlock-checkbox" type="checkbox" />
+          <span className="checkmark"></span>
+          <span>Unlock the submission button?</span>
+        </label>
         <div className="modal-button-container">
           <button onClick={onClose} className="modal-submit-button">
             Submit
