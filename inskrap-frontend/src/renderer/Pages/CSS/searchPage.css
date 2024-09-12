@@ -1,55 +1,56 @@
-form {
-  margin: 20px 0;
-}
-
-label {
-  margin-right: 10px;
-}
-
-input {
-  margin: 10px;
-}
-
-button {
-  margin: 10px;
-  padding: 10px 20px;
-  font-size: 16px;
-  cursor: pointer;
-}
-
-table {
-  margin: 20px auto;
+.search-table {
+  margin: 1rem auto;
   border-collapse: collapse;
-  width: 80%;
+  max-width: 70%;
+  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.5);
 }
 
-th,
-td {
-  border: 1px solid #fff;
-  padding: 8px;
+.search-table th,
+.search-table td {
+  border: none;
+  padding: 1.5rem;
 }
 
-th {
-  background-color: #333; /* Dark background color */
-  color: #fff; /* White text color */
-  text-align: left;
+.search-table th {
+  background-color: rgb(0, 100, 0);
+  color: rgb(222, 222, 222);
+  text-align: center;
+  font-size: 1.2rem;
+  font-weight: 700;
+  transition: 0.2s;
 }
 
-tbody tr {
-  background-color: #333;
-  color: #fff;
+.title-th {
+  border-radius: 0.5rem 0 0 0;
 }
 
-a button {
+.phone-th {
+  border-radius: 0 0.5rem 0 0;
+}
+
+.search-table tbody tr {
+  background-color: rgb(0, 50, 0);
+  color: rgb(231, 231, 231);
+  text-align: center;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: 0.2s;
+}
+
+.search-table tr:hover {
+  background-color: rgb(0, 81, 0);
+}
+
+.search-table a button {
   background: none;
   border: none;
-  color: #fff;
-  text-decoration: underline;
+  color: rgb(0, 210, 0);
   cursor: pointer;
+  transition: 0.2s;
 }
 
-a button:hover {
-  text-decoration: none;
+.search-table a button:hover {
+  color: rgb(0, 150, 0);
 }
 
 .button {
@@ -230,12 +231,13 @@ a button:hover {
   display: flex;
   flex-direction: column;
   text-align: center;
+  gap: 1rem;
 }
 
 .main-title {
   width: 100%;
   color: #fff;
-  margin-bottom: 0.2rem;
+  margin-bottom: 1rem;
 }
 
 .search-form {
@@ -244,14 +246,16 @@ a button:hover {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 1rem;
 }
 
 .search-container {
-  max-width: 200px;
+  min-width: 200px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 0.4rem;
 }
 
 .search-container label {
@@ -264,7 +268,9 @@ a button:hover {
 
 .keyword-input {
   width: 100%;
-  padding: 0.5rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  text-indent: 0.3rem;
   border: 1px solid rgb(118, 118, 118);
   border-top: 0px;
   border-left: 0px;
@@ -291,7 +297,9 @@ a button:hover {
 
 .location-input {
   width: 100%;
-  padding: 0.5rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  text-indent: 0.3rem;
   border: 1px solid rgb(118, 118, 118);
   border-top: 0px;
   border-left: 0px;

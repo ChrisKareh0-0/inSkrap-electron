@@ -7,7 +7,6 @@
 .logo {
   height: 6em;
   padding: 1.5em;
-  will-change: filter;
   transition: filter 300ms;
 }
 .logo:hover {
@@ -27,7 +26,7 @@
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
+  .logo:nth-of-type(2) .logo {
     animation: logo-spin infinite 20s linear;
   }
 }
@@ -43,22 +42,6 @@
 .App {
   text-align: center;
   padding: 20px;
-}
-
-form {
-  margin: 20px 0;
-}
-
-label {
-  margin-right: 10px;
-}
-
-input {
-  margin: 10px;
-}
-
-button {
-  margin: 10px;
 }
 
 .home {
@@ -91,7 +74,6 @@ button {
   border: 0;
   border-radius: 4px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  box-sizing: border-box;
   padding: 16px 20px;
   color: #fff;
   font-size: 12px;

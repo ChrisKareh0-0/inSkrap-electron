@@ -6,11 +6,9 @@ import SearchPage from "./Pages/searchPage";
 import "./App.css";
 
 function App() {
-  console.log("is the project running");
   return (
     <HashRouter>
       <div className="App">
-        {/* <NeuralNoiseBackground /> */}
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/search" element={<SearchPage />} />
@@ -27,7 +25,6 @@ function Home() {
       <div className="home">
         <div className="content">
           <h1>Welcome to inSkrap</h1>
-          {/* <p style={{color:'#fff'}}>This is supposed to be the landing page.</p> */}
           <Link to="/search">
             <button className="btn">
               <i className="animation"></i>Get Started

@@ -4,13 +4,12 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./CSS/searchPage.css";
 import Modal from "../Components/modal";
-// import io from 'socket.io-client';
 
 function SearchPage() {
   const [keyword, setKeyword] = useState("");
   const [location, setLocation] = useState("");
   const [results, setResults] = useState([]);
-  const [loading, setLoading] = useState(false); // Add loading state
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const [isModalVisible, setModalVisible] = useState(false);
@@ -102,13 +101,13 @@ function SearchPage() {
             <p style={{ color: "#fff" }}>Total Results: {results.length}</p>
             {results.length > 0 && (
               <div>
-                <table>
+                <table className="search-table">
                   <thead>
                     <tr>
-                      <th>Title</th>
+                      <th className="title-th">Title</th>
                       <th>Link</th>
                       <th>Website</th>
-                      <th>Phone</th>
+                      <th className="phone-th">Phone</th>
                     </tr>
                   </thead>
                   <tbody>
