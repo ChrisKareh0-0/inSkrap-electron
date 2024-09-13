@@ -65,7 +65,7 @@ function SearchPage() {
           <div className="search-container">
             <label>Keyword:</label>
             <input
-              className="keyword-input"
+              className="themed-input"
               type="text"
               value={keyword}
               placeholder="Enter keyword"
@@ -76,7 +76,7 @@ function SearchPage() {
           <div className="search-container">
             <label>Location:</label>
             <input
-              className="location-input"
+              className="themed-input"
               type="text"
               value={location}
               placeholder="Enter location"
@@ -84,7 +84,7 @@ function SearchPage() {
               required
             />
           </div>
-          <button className="search-button" type="submit">
+          <button className="themed-button" type="submit">
             Search
           </button>
         </form>

@@ -9,6 +9,14 @@
   font-synthesis: none;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  /* Global theme variables */
+  --btn-bg-color: rgb(12, 144, 0);
+  --btn-hover-bg-color: rgb(7, 81, 0);
+  --btn-color: rgb(255, 255, 255);
+  --btn-shadow: 0 0px 8px rgba(0, 0, 0, 0.3);
+  --btn-font-size: 1rem;
+  --btn-radius: 4px;
 }
 
 body {
@@ -35,4 +43,53 @@ button {
 button:focus,
 input:focus {
   outline: 2px solid rgba(0, 255, 0, 0.5);
+}
+
+/* Global Components */
+.themed-button {
+  border: none;
+  width: 100px;
+  height: 40px;
+  background-color: var(--btn-bg-color);
+  color: var(--btn-color);
+  border-radius: var(--btn-radius);
+  box-shadow: var(--btn-shadow);
+  font-size: var(--btn-font-size);
+  cursor: pointer;
+  transition: 0.2s;
+  text-align: center;
+}
+
+.themed-button:hover,
+.themed-button:focus {
+  background-color: var(--btn-hover-bg-color);
+}
+
+.themed-input {
+  width: 100%;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  text-indent: 0.3rem;
+  border: 1px solid rgb(118, 118, 118);
+  border-top: 0px;
+  border-left: 0px;
+  border-right: 0px;
+  border-radius: 4px 4px 0px 0px;
+  background-color: transparent;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.2s;
+  color: rgb(200, 200, 200);
+}
+
+.themed-input:hover,
+.themed-input:focus {
+  background-color: rgb(5, 58, 0, 0.3);
+  border-color: rgb(0, 150, 0);
+  color: rgb(0, 200, 0);
+}
+
+.themed-input:hover::placeholder,
+.themed-input:focus::placeholder {
+  color: rgb(0, 200, 0);
 }

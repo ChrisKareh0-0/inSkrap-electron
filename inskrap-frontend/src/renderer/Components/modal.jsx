@@ -68,7 +68,7 @@ function Modal({ isVisible, onClose }) {
         <div className="modal-button-container">
           <button
             onClick={handleSubmit}
-            className="modal-submit-button"
+            className="themed-button"
             disabled={!isSubmitEnabled}
             style={{
               backgroundColor: isSubmitEnabled ? "" : "gray",
