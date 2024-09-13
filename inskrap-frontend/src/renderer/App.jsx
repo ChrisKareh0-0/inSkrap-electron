@@ -4,6 +4,7 @@ import { Route, Routes, Link, HashRouter } from "react-router-dom";
 import NeuralNoiseBackground from "./Components/background";
 import SearchPage from "./Pages/searchPage";
 import "./App.css";
+import AccountPage from "./Pages/accountPage";
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/search" element={<SearchPage />} />
+          <Route path="/account" element={<AccountPage />} />
         </Routes>
       </div>
     </HashRouter>
@@ -25,7 +27,7 @@ function Home() {
       <div className="home">
         <div className="content">
           <h1>Welcome to inSkrap</h1>
-          <Link to="/search">
+          <Link to="/account">
             <button className="btn">
               <i className="animation"></i>Get Started
               <i className="animation"></i>

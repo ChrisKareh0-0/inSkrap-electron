@@ -1,0 +1,43 @@
+.page-title {
+  font-size: 2rem;
+  color: white;
+}
+
+.login-form {
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.login-container {
+  min-width: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+}
+
+.login-container label {
+  text-align: left;
+  width: 100%;
+  font-weight: 500;
+  color: rgb(228, 228, 228);
+  margin-top: 0.2rem;
+}
+
+.switch-method-text {
+  font-size: 0.8rem;
+  color: rgb(0, 140, 0);
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.switch-method-text:hover,
+.switch-method-text:focus {
+  color: rgb(0, 100, 0);
+}
