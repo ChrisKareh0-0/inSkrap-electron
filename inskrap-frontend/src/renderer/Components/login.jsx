@@ -27,7 +27,7 @@ function Login({ changeAccountMethod }) {
           />
         </div>
         <p className="switch-method-text" onClick={changeAccountMethod}>
-          Already have an account?
+          Don't have an account?
         </p>
         <button
           className="themed-button"
