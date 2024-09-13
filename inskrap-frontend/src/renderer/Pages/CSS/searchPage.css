@@ -1,64 +1,59 @@
-.search-page {
-  text-align: center;
-  padding: 20px;
-}
-
-form {
-  margin: 20px 0;
-}
-
-label {
-  margin-right: 10px;
-}
-
-input {
-  margin: 10px;
-}
-
-button {
-  margin: 10px;
-  padding: 10px 20px;
-  font-size: 16px;
-  cursor: pointer;
-}
-
-table {
-  margin: 20px auto;
+.search-table {
+  margin: 1rem auto;
   border-collapse: collapse;
-  width: 80%;
+  max-width: 70%;
+  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.5);
 }
 
-th,
-td {
-  border: 1px solid #fff;
-  padding: 8px;
+.search-table th,
+.search-table td {
+  border: none;
+  padding: 1.5rem;
 }
 
-th {
-  background-color: #333; /* Dark background color */
-  color: #fff; /* White text color */
-  text-align: left;
+.search-table th {
+  background-color: rgb(0, 100, 0);
+  color: rgb(222, 222, 222);
+  text-align: center;
+  font-size: 1.2rem;
+  font-weight: 700;
+  transition: 0.2s;
 }
 
-tbody tr {
-  background-color: #333;
-  color: #fff;
+.title-th {
+  border-radius: 0.5rem 0 0 0;
 }
 
-a button {
+.phone-th {
+  border-radius: 0 0.5rem 0 0;
+}
+
+.search-table tbody tr {
+  background-color: rgb(0, 50, 0);
+  color: rgb(231, 231, 231);
+  text-align: center;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: 0.2s;
+}
+
+.search-table tr:hover {
+  background-color: rgb(0, 81, 0);
+}
+
+.search-table a button {
   background: none;
   border: none;
-  color: #fff;
-  text-decoration: underline;
+  color: rgb(0, 210, 0);
   cursor: pointer;
+  transition: 0.2s;
 }
 
-a button:hover {
-  text-decoration: none;
+.search-table a button:hover {
+  color: rgb(0, 150, 0);
 }
 
 .button {
-  display: block;
   position: absolute;
   width: 56px;
   height: 56px;
@@ -68,7 +63,8 @@ a button:hover {
   background-color: transparent;
   cursor: pointer;
   border: 0;
-  margin-top: 40px;
+  top: 40px;
+  left: 40px;
 }
 
 .button:before,
@@ -131,31 +127,6 @@ a button:hover {
   transform: translateX(-56px);
 }
 
-/* Floating button */
-.floating-button {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  background-color: rgb(12, 144, 0);
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  width: 100px;
-  height: 60px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 0px 8px rgba(0, 0, 0, 0.3);
-  font-size: 1rem;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-.floating-button:hover {
-  background-color: rgb(7, 81, 0);
-}
-/* Floating button */
-
 .loader {
   position: relative;
   width: 150px;
@@ -168,7 +139,7 @@ a button:hover {
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  margin-left: 60px;
+  margin-left: 25px;
 }
 
 .loader::before {
@@ -227,3 +198,148 @@ a button:hover {
     transform: rotate(360deg);
   }
 }
+
+/* Floating button */
+.floating-button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: rgb(12, 144, 0);
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  width: 100px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0px 8px rgba(0, 0, 0, 0.3);
+  font-size: 1rem;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.floating-button:hover,
+.floating-button:focus {
+  background-color: rgb(7, 81, 0);
+}
+/* Floating button */
+
+/* Revamped Search Page Styles */
+.search-page {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  gap: 1rem;
+}
+
+.main-title {
+  width: 100%;
+  color: #fff;
+  margin-bottom: 1rem;
+}
+
+.search-form {
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.search-container {
+  min-width: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+}
+
+.search-container label {
+  text-align: left;
+  width: 100%;
+  font-weight: 500;
+  color: rgb(228, 228, 228);
+  margin-top: 0.2rem;
+}
+
+.keyword-input {
+  width: 100%;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  text-indent: 0.3rem;
+  border: 1px solid rgb(118, 118, 118);
+  border-top: 0px;
+  border-left: 0px;
+  border-right: 0px;
+  border-radius: 4px 4px 0px 0px;
+  background-color: transparent;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.2s;
+  color: rgb(200, 200, 200);
+}
+
+.keyword-input:hover,
+.keyword-input:focus {
+  background-color: rgb(5, 58, 0, 0.3);
+  border-color: rgb(0, 150, 0);
+  color: rgb(0, 200, 0);
+}
+
+.keyword-input:hover::placeholder,
+.keyword-input:focus::placeholder {
+  color: rgb(0, 200, 0);
+}
+
+.location-input {
+  width: 100%;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  text-indent: 0.3rem;
+  border: 1px solid rgb(118, 118, 118);
+  border-top: 0px;
+  border-left: 0px;
+  border-right: 0px;
+  border-radius: 4px 4px 0px 0px;
+  background-color: transparent;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.2s;
+  color: rgb(200, 200, 200);
+}
+
+.location-input:hover,
+.location-input:focus {
+  background-color: rgb(5, 58, 0, 0.3);
+  border-color: rgb(0, 150, 0);
+  color: rgb(0, 200, 0);
+}
+
+.location-input:hover::placeholder,
+.location-input:focus::placeholder {
+  color: rgb(0, 200, 0);
+}
+
+.search-button {
+  background-color: rgb(12, 144, 0);
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  width: 100px;
+  height: 40px;
+  box-shadow: 0 0px 8px rgba(0, 0, 0, 0.3);
+  font-size: 1rem;
+  cursor: pointer;
+  transition: 0.2s;
+  text-align: center;
+}
+
+.search-button:hover,
+.search-button:focus {
+  background-color: rgb(7, 81, 0);
+}
+/* Revamped Search Page Styles */
