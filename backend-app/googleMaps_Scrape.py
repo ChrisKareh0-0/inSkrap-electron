@@ -14,7 +14,7 @@ def scrape_google_maps(search_query):
     chrome_options.add_argument('--no-sandbox')
     chrome_options.add_argument('--disable-dev-shm-usage')
     chrome_options.add_argument('--window-size=1920x1080')
-    
+
     service = Service(ChromeDriverManager().install())
     driver = webdriver.Chrome(service=service, options=chrome_options)
 
@@ -59,7 +59,20 @@ def scrape_google_maps(search_query):
         """, scrollable_div)
 
         items = driver.find_elements(By.CSS_SELECTOR, 'div[role="feed"] > div > div[jsaction]')
-        phone_pattern = re.compile(r'\b\d{2}\s?\d{3}\s?\d{3}\b')
+        
+        # Updated regex to handle full phone numbers with spaces, hyphens, etc.
+        phone_pattern = re.compile(r'''
+            \+?                      # Optional + sign for country code
+            \d{1,4}                  # Country code (1-4 digits, like +1, +44)
+            [\s\-\.]?                # Optional separator (space, hyphen, dot)
+            \(?\d{1,4}\)?            # Area code with or without parentheses (1-4 digits)
+            [\s\-\.]?                # Optional separator (space, hyphen, dot)
+            \d{1,4}                  # First segment (1-4 digits)
+            [\s\-\.]?                # Optional separator (space, hyphen, dot)
+            \d{1,4}                  # Second segment (1-4 digits)
+            [\s\-\.]?                # Optional separator (space, hyphen, dot)
+            \d{1,9}                  # Final segment (up to 9 digits)
+        ''', re.VERBOSE)
 
         for item in items:
             data = {}
@@ -90,12 +103,21 @@ def scrape_google_maps(search_query):
                 pass
 
             try:
-                text_content = item.text
-                matches = phone_pattern.findall(text_content)
-                unique_phone_numbers = list(set(matches))
+                # Get all span tags with the phone number format
+                span_tags = item.find_elements(By.CSS_SELECTOR, "span[dir='ltr']")
+                phone_numbers = []
+
+                for span in span_tags:
+                    span_text = span.text
+                    matches = phone_pattern.findall(span_text)
+                    if matches:
+                        print(f"Matched phone: {matches}")
+                    phone_numbers.extend(matches)
+
+                unique_phone_numbers = list(set(phone_numbers))  # Removing duplicate phone numbers
                 data['phone'] = unique_phone_numbers[0] if unique_phone_numbers else None
-            except Exception:
-                pass
+            except Exception as e:
+                print(f"Error extracting phone numbers: {e}")
 
             if data.get('title'):
                 yield data  # Yield each result one by one
