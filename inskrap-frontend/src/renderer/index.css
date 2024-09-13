@@ -17,6 +17,11 @@
   --btn-shadow: 0 0px 8px rgba(0, 0, 0, 0.3);
   --btn-font-size: 1rem;
   --btn-radius: 4px;
+
+  --input-hover-bg-color: rgb(5, 58, 0, 0.3);
+  --input-hover-border-color: rgb(0, 150, 0);
+  --input-hover-color: rgb(0, 200, 0);
+  --input-font-size: 0.9rem;
 }
 
 body {
@@ -80,16 +85,17 @@ input:focus {
   cursor: pointer;
   transition: 0.2s;
   color: rgb(200, 200, 200);
+  font-size: var(--input-font-size);
 }
 
 .themed-input:hover,
 .themed-input:focus {
-  background-color: rgb(5, 58, 0, 0.3);
-  border-color: rgb(0, 150, 0);
-  color: rgb(0, 200, 0);
+  background-color: var(--input-hover-bg-color);
+  border-color: var(--input-hover-border-color);
+  color: var(--input-hover-color);
 }
 
 .themed-input:hover::placeholder,
 .themed-input:focus::placeholder {
-  color: rgb(0, 200, 0);
+  color: var(--input-hover-color);
 }
