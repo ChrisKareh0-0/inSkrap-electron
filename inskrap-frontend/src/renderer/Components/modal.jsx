@@ -3,11 +3,9 @@ import "./modal.css";
 import { useState } from "react";
 
 // Google voice integration submission modal
-function Modal({ isVisible, onClose }) {
+function Modal({ isModalVisible, onClose }) {
   const [useCheckbox, setUseCheckbox] = useState(false);
   const [inputValue, setInputValue] = useState("");
-
-  if (!isVisible) return null;
 
   const handleBackdropClick = (e) => {
     onClose();
@@ -37,8 +35,14 @@ function Modal({ isVisible, onClose }) {
   };
 
   return (
-    <div className="modal-backdrop" onClick={handleBackdropClick}>
-      <div className="modal-container" onClick={handleModalClick}>
+    <div
+      className={`modal-backdrop ${isModalVisible ? "show" : ""}`}
+      onClick={handleBackdropClick}
+    >
+      <div
+        className={`modal-container ${isModalVisible ? "show" : ""}`}
+        onClick={handleModalClick}
+      >
         <button className="modal-close" onClick={onClose}>
           ×
         </button>

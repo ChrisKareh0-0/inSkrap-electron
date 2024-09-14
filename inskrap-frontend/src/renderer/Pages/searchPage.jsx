@@ -163,7 +163,7 @@ function SearchPage() {
 
       {/* Modal */}
       <Modal
-        isVisible={isModalVisible}
+        isModalVisible={isModalVisible}
         onClose={() => setModalVisible(false)}
       />
     </>
