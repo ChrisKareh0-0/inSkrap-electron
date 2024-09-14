@@ -1,31 +1,91 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./signup.css";
+
+// Reusable input field component
+const InputField = ({ label, type, placeholder, value, onChange }) => (
+  <div className="signup-container">
+    <label>{label}</label>
+    <input
+      className="themed-input"
+      type={type}
+      placeholder={placeholder}
+      value={value}
+      onChange={onChange}
+    />
+  </div>
+);
 
 function Signup({ changeAccountMethod }) {
   const navigate = useNavigate();
   const [section, setSection] = useState("Personal");
 
-  // State for Personal Details
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [personalDetails, setPersonalDetails] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
 
-  // State for Payment Info
-  const [cardName, setCardName] = useState("");
-  const [cardNumber, setCardNumber] = useState("");
-  const [expirationDate, setExpirationDate] = useState("");
-  const [cvv, setCvv] = useState("");
-  const [address, setAddress] = useState("");
+  const [paymentInfo, setPaymentInfo] = useState({
+    cardName: "",
+    cardNumber: "",
+    expirationDate: "",
+    cvv: "",
+    address: "",
+  });
+
+  // Form validity states
+  const [isPersonalDetailsValid, setIsPersonalDetailsValid] = useState(false);
+  const [isPaymentInfoValid, setIsPaymentInfoValid] = useState(false);
 
   const changeSection = () => {
-    if (section === "Personal") {
-      setSection("Payment");
-    } else {
-      setSection("Personal");
+    setSection((prevSection) =>
+      prevSection === "Personal" ? "Payment" : "Personal"
+    );
+  };
+
+  // Generic validation function
+  const validateFields = (fields, type) => {
+    if (type === "personal") {
+      const { firstName, lastName, email, password, confirmPassword } = fields;
+      const isEmailValid = email.includes("@") && email.includes(".");
+      const isPasswordValid =
+        password.length >= 8 && password === confirmPassword;
+      return firstName && lastName && email && isEmailValid && isPasswordValid;
+    } else if (type === "payment") {
+      const { cardName, cardNumber, expirationDate, cvv, address } = fields;
+      return (
+        cardName &&
+        cardNumber.length >= 8 &&
+        expirationDate &&
+        cvv.length === 3 &&
+        address
+      );
     }
+    return false;
+  };
+
+  // Combined validation logic for both personal details and payment info
+  useEffect(() => {
+    setIsPersonalDetailsValid(validateFields(personalDetails, "personal"));
+    setIsPaymentInfoValid(validateFields(paymentInfo, "payment"));
+  }, [personalDetails, paymentInfo]);
+
+  // Handle input changes for personal and payment sections
+  const handlePersonalChange = (field) => (e) => {
+    setPersonalDetails((prevDetails) => ({
+      ...prevDetails,
+      [field]: e.target.value,
+    }));
+  };
+
+  const handlePaymentChange = (field) => (e) => {
+    setPaymentInfo((prevInfo) => ({
+      ...prevInfo,
+      [field]: e.target.value,
+    }));
   };
 
   return (
@@ -35,120 +95,80 @@ function Signup({ changeAccountMethod }) {
         {section === "Personal" ? (
           <div className="details-container">
             <h2>Personal Details</h2>
-            <div className="signup-container">
-              <label>First Name:</label>
-              <input
-                className="themed-input"
-                type="text"
-                placeholder="Enter your first name"
-                required
-                value={firstName}
-                onChange={(e) => setFirstName(e.target.value)}
-              />
-            </div>
-            <div className="signup-container">
-              <label>Last Name:</label>
-              <input
-                className="themed-input"
-                type="text"
-                placeholder="Enter your last name"
-                required
-                value={lastName}
-                onChange={(e) => setLastName(e.target.value)}
-              />
-            </div>
-            <div className="signup-container">
-              <label>Email:</label>
-              <input
-                className="themed-input"
-                type="email"
-                placeholder="Enter your email"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-            </div>
-            <div className="signup-container">
-              <label>Password:</label>
-              <input
-                className="themed-input"
-                type="password"
-                placeholder="Create a password"
-                required
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </div>
-            <div className="signup-container">
-              <label>Confirm Password:</label>
-              <input
-                className="themed-input"
-                type="password"
-                placeholder="Confirm your password"
-                required
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-              />
-            </div>
+            <InputField
+              label="First Name:"
+              type="text"
+              placeholder="Enter your first name"
+              value={personalDetails.firstName}
+              onChange={handlePersonalChange("firstName")}
+            />
+            <InputField
+              label="Last Name:"
+              type="text"
+              placeholder="Enter your last name"
+              value={personalDetails.lastName}
+              onChange={handlePersonalChange("lastName")}
+            />
+            <InputField
+              label="Email:"
+              type="email"
+              placeholder="Enter your email"
+              value={personalDetails.email}
+              onChange={handlePersonalChange("email")}
+            />
+            <InputField
+              label="Password:"
+              type="password"
+              placeholder="Create a password"
+              value={personalDetails.password}
+              onChange={handlePersonalChange("password")}
+            />
+            <InputField
+              label="Confirm Password:"
+              type="password"
+              placeholder="Confirm your password"
+              value={personalDetails.confirmPassword}
+              onChange={handlePersonalChange("confirmPassword")}
+            />
           </div>
         ) : (
           <div className="details-container">
             <h2>Payment Info</h2>
-            <div className="signup-container">
-              <label>Cardholder's Name:</label>
-              <input
-                className="themed-input"
-                type="text"
-                placeholder="Enter the cardholder's name"
-                required
-                value={cardName}
-                onChange={(e) => setCardName(e.target.value)}
-              />
-            </div>
-            <div className="signup-container">
-              <label>Card Number:</label>
-              <input
-                className="themed-input"
-                type="number"
-                placeholder="Enter the card number"
-                required
-                value={cardNumber}
-                onChange={(e) => setCardNumber(e.target.value)}
-              />
-            </div>
-            <div className="signup-container">
-              <label>Expiration Date:</label>
-              <input
-                className="themed-input"
-                type="date"
-                placeholder="Enter the expiration date"
-                required
-                value={expirationDate}
-                onChange={(e) => setExpirationDate(e.target.value)}
-              />
-            </div>
-            <div className="signup-container">
-              <label>CVV/CVC Code:</label>
-              <input
-                className="themed-input"
-                type="number"
-                placeholder="Enter the code"
-                required
-                value={cvv}
-                onChange={(e) => setCvv(e.target.value)}
-              />
-            </div>
-            <div className="signup-container">
-              <label>Address:</label>
-              <input
-                className="themed-input"
-                type="text"
-                placeholder="Enter your full address"
-                required
-                value={address}
-                onChange={(e) => setAddress(e.target.value)}
-              />
-            </div>
+            <InputField
+              label="Cardholder's Name:"
+              type="text"
+              placeholder="Enter the cardholder's name"
+              value={paymentInfo.cardName}
+              onChange={handlePaymentChange("cardName")}
+            />
+            <InputField
+              label="Card Number:"
+              type="number"
+              placeholder="Enter the card number"
+              value={paymentInfo.cardNumber}
+              onChange={handlePaymentChange("cardNumber")}
+            />
+            <InputField
+              label="Expiration Date:"
+              type="date"
+              placeholder="Enter the expiration date"
+              value={paymentInfo.expirationDate}
+              onChange={handlePaymentChange("expirationDate")}
+            />
+            <InputField
+              label="CVV/CVC Code:"
+              type="number"
+              placeholder="Enter the code"
+              value={paymentInfo.cvv}
+              onChange={handlePaymentChange("cvv")}
+            />
+            <InputField
+              label="Address:"
+              type="text"
+              placeholder="Enter your full address"
+              value={paymentInfo.address}
+              onChange={handlePaymentChange("address")}
+            />
           </div>
         )}
       </form>
@@ -169,7 +189,9 @@ function Signup({ changeAccountMethod }) {
             <button
               className="themed-button"
               type="submit"
+              disabled={!isPaymentInfoValid}
               onClick={() => navigate("/search")}
+              style={{ backgroundColor: isPaymentInfoValid ? "" : "gray" }}
             >
               Signup
             </button>
@@ -178,7 +200,9 @@ function Signup({ changeAccountMethod }) {
           <button
             className="themed-button"
             type="button"
+            disabled={!isPersonalDetailsValid}
             onClick={changeSection}
+            style={{ backgroundColor: isPersonalDetailsValid ? "" : "gray" }}
           >
             Next
           </button>
