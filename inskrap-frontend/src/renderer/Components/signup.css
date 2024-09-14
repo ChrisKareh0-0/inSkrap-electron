@@ -42,13 +42,35 @@
   color: rgb(0, 100, 0);
 }
 
-.details-container {
+.personal-details-container {
   width: 100%;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
   align-items: center;
   justify-content: center;
+}
+
+.payment-details-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.fade {
+  opacity: 0;
+  transition: opacity 0.25s ease-in-out;
+}
+
+.fade-in {
+  opacity: 1;
+}
+
+.fade-out {
+  opacity: 0;
 }
 
 .button-container {

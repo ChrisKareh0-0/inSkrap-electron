@@ -19,6 +19,8 @@ const InputField = ({ label, type, placeholder, value, onChange }) => (
 function Signup({ changeAccountMethod }) {
   const navigate = useNavigate();
   const [section, setSection] = useState("Personal");
+  const [fadeClass, setFadeClass] = useState("fade fade-in");
+  const animationLength = 250;
 
   const [personalDetails, setPersonalDetails] = useState({
     firstName: "",
@@ -41,9 +43,13 @@ function Signup({ changeAccountMethod }) {
   const [isPaymentInfoValid, setIsPaymentInfoValid] = useState(false);
 
   const changeSection = () => {
-    setSection((prevSection) =>
-      prevSection === "Personal" ? "Payment" : "Personal"
-    );
+    setFadeClass("fade fade-out"); // Start fade-out
+    setTimeout(() => {
+      setSection((prevSection) =>
+        prevSection === "Personal" ? "Payment" : "Personal"
+      );
+      setFadeClass("fade fade-in"); // Start fade-in
+    }, animationLength); // Duration should match the CSS transition
   };
 
   // Generic validation function
@@ -92,85 +98,87 @@ function Signup({ changeAccountMethod }) {
     <>
       <h1 className="page-title">inSkrap Signup</h1>
       <form className="signup-form">
-        {section === "Personal" ? (
-          <div className="details-container">
-            <h2>Personal Details</h2>
-            <InputField
-              label="First Name:"
-              type="text"
-              placeholder="Enter your first name"
-              value={personalDetails.firstName}
-              onChange={handlePersonalChange("firstName")}
-            />
-            <InputField
-              label="Last Name:"
-              type="text"
-              placeholder="Enter your last name"
-              value={personalDetails.lastName}
-              onChange={handlePersonalChange("lastName")}
-            />
-            <InputField
-              label="Email:"
-              type="email"
-              placeholder="Enter your email"
-              value={personalDetails.email}
-              onChange={handlePersonalChange("email")}
-            />
-            <InputField
-              label="Password:"
-              type="password"
-              placeholder="Create a password"
-              value={personalDetails.password}
-              onChange={handlePersonalChange("password")}
-            />
-            <InputField
-              label="Confirm Password:"
-              type="password"
-              placeholder="Confirm your password"
-              value={personalDetails.confirmPassword}
-              onChange={handlePersonalChange("confirmPassword")}
-            />
-          </div>
-        ) : (
-          <div className="details-container">
-            <h2>Payment Info</h2>
-            <InputField
-              label="Cardholder's Name:"
-              type="text"
-              placeholder="Enter the cardholder's name"
-              value={paymentInfo.cardName}
-              onChange={handlePaymentChange("cardName")}
-            />
-            <InputField
-              label="Card Number:"
-              type="number"
-              placeholder="Enter the card number"
-              value={paymentInfo.cardNumber}
-              onChange={handlePaymentChange("cardNumber")}
-            />
-            <InputField
-              label="Expiration Date:"
-              type="date"
-              placeholder="Enter the expiration date"
-              value={paymentInfo.expirationDate}
-              onChange={handlePaymentChange("expirationDate")}
-            />
-            <InputField
-              label="CVV/CVC Code:"
-              type="number"
-              placeholder="Enter the code"
-              value={paymentInfo.cvv}
-              onChange={handlePaymentChange("cvv")}
-            />
-            <InputField
-              label="Address:"
-              type="text"
-              placeholder="Enter your full address"
-              value={paymentInfo.address}
-              onChange={handlePaymentChange("address")}
-            />
-          </div>
-        )}
+        <div className={fadeClass}>
+          {section === "Personal" ? (
+            <div className="personal-details-container">
+              <h2>Personal Details</h2>
+              <InputField
+                label="First Name:"
+                type="text"
+                placeholder="Enter your first name"
+                value={personalDetails.firstName}
+                onChange={handlePersonalChange("firstName")}
+              />
+              <InputField
+                label="Last Name:"
+                type="text"
+                placeholder="Enter your last name"
+                value={personalDetails.lastName}
+                onChange={handlePersonalChange("lastName")}
+              />
+              <InputField
+                label="Email:"
+                type="email"
+                placeholder="Enter your email"
+                value={personalDetails.email}
+                onChange={handlePersonalChange("email")}
+              />
+              <InputField
+                label="Password:"
+                type="password"
+                placeholder="Create a password"
+                value={personalDetails.password}
+                onChange={handlePersonalChange("password")}
+              />
+              <InputField
+                label="Confirm Password:"
+                type="password"
+                placeholder="Confirm your password"
+                value={personalDetails.confirmPassword}
+                onChange={handlePersonalChange("confirmPassword")}
+              />
+            </div>
+          ) : (
+            <div className="payment-details-container">
+              <h2>Payment Info</h2>
+              <InputField
+                label="Cardholder's Name:"
+                type="text"
+                placeholder="Enter the cardholder's name"
+                value={paymentInfo.cardName}
+                onChange={handlePaymentChange("cardName")}
+              />
+              <InputField
+                label="Card Number:"
+                type="number"
+                placeholder="Enter the card number"
+                value={paymentInfo.cardNumber}
+                onChange={handlePaymentChange("cardNumber")}
+              />
+              <InputField
+                label="Expiration Date:"
+                type="date"
+                placeholder="Enter the expiration date"
+                value={paymentInfo.expirationDate}
+                onChange={handlePaymentChange("expirationDate")}
+              />
+              <InputField
+                label="CVV/CVC Code:"
+                type="number"
+                placeholder="Enter the code"
+                value={paymentInfo.cvv}
+                onChange={handlePaymentChange("cvv")}
+              />
+              <InputField
+                label="Address:"
+                type="text"
+                placeholder="Enter your full address"
+                value={paymentInfo.address}
+                onChange={handlePaymentChange("address")}
+              />
+            </div>
+          )}
+        </div>
       </form>
       <div>
         <p className="switch-method-text" onClick={changeAccountMethod}>
