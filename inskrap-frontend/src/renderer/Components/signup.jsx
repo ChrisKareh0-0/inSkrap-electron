@@ -43,13 +43,13 @@ function Signup({ changeAccountMethod }) {
   const [isPaymentInfoValid, setIsPaymentInfoValid] = useState(false);
 
   const changeSection = () => {
-    setFadeClass("fade fade-out"); // Start fade-out
+    setFadeClass("fade fade-out");
     setTimeout(() => {
       setSection((prevSection) =>
         prevSection === "Personal" ? "Payment" : "Personal"
       );
-      setFadeClass("fade fade-in"); // Start fade-in
-    }, animationLength); // Duration should match the CSS transition
+      setFadeClass("fade fade-in");
+    }, animationLength);
   };
 
   // Generic validation function

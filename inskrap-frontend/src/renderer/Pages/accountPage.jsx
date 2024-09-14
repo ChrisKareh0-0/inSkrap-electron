@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./CSS/accountPage.css";
 import Signup from "../Components/signup";
@@ -7,13 +7,17 @@ import Login from "../Components/login";
 function AccountPage() {
   const navigate = useNavigate();
   const [accountMethod, setAccountMethod] = useState("Signup");
+  const [fadeClass, setFadeClass] = useState("fade fade-in");
+  const animationLength = 250;
 
-  const changeAccountMethod = (e) => {
-    if (accountMethod === "Signup") {
-      setAccountMethod("Login");
-    } else {
-      setAccountMethod("Signup");
-    }
+  const changeAccountMethod = () => {
+    setFadeClass("fade fade-out");
+    setTimeout(() => {
+      setAccountMethod((prevMethod) =>
+        prevMethod === "Signup" ? "Login" : "Signup"
+      );
+      setFadeClass("fade fade-in");
+    }, animationLength);
   };
 
   return (
@@ -35,11 +39,13 @@ function AccountPage() {
           </div>
         </button>
 
-        {accountMethod === "Signup" ? (
-          <Signup changeAccountMethod={changeAccountMethod} />
-        ) : (
-          <Login changeAccountMethod={changeAccountMethod} />
-        )}
+        <div className={fadeClass}>
+          {accountMethod === "Signup" ? (
+            <Signup changeAccountMethod={changeAccountMethod} />
+          ) : (
+            <Login changeAccountMethod={changeAccountMethod} />
+          )}
+        </div>
       </div>
     </>
   );
