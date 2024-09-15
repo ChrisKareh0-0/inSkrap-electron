@@ -24,6 +24,22 @@
   --input-font-size: 0.9rem;
 }
 
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgb(65, 65, 65);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(50, 50, 50);
+}
+
 body {
   margin: 0;
   display: flex;
