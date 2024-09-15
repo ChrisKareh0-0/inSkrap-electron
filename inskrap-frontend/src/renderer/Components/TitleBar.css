@@ -1,0 +1,52 @@
+.title-bar {
+  background-color: transparent;
+  color: #fff;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  height: 3rem;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  backdrop-filter: blur(12px);
+}
+
+.title-bar-draggable {
+  -webkit-app-region: drag;
+  height: 100%;
+  width: 100%;
+}
+
+.title-bar-buttons {
+  -webkit-app-region: no-drag;
+  display: flex;
+  align-items: center;
+}
+
+.title-button {
+  width: 2.2rem;
+  background: transparent;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  margin-left: 1rem;
+  padding-right: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  outline: none !important;
+}
+
+.title-button img {
+  width: 100%;
+}
+
+.title-button:hover img {
+  filter: brightness(0.7);
+}
+
+.content {
+  margin-top: 2rem;
+}

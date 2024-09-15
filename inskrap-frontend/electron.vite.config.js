@@ -1,29 +1,33 @@
-import { defineConfig } from 'electron-vite';
-import path from 'path';
+import { defineConfig } from "electron-vite";
+import path from "path";
 
 export default defineConfig({
   main: {
     build: {
-      outDir: 'dist/main',
+      outDir: "dist/main",
       rollupOptions: {
-        input: path.resolve('./src/main/main.js'), // Use absolute path for better consistency
-      }
-    }
+        input: path.resolve("./src/main/main.js"),
+      },
+    },
   },
   preload: {
     build: {
-      outDir: 'dist/preload',
+      outDir: "dist/preload",
       rollupOptions: {
-        input: path.resolve('./src/main/preload.mjs'), // Ensure this path is correct
-      }
-    }
+        input: path.resolve("./src/main/preload.js"),
+        output: {
+          entryFileNames: "preload.js",
+          format: "cjs",
+        },
+      },
+    },
   },
   renderer: {
     build: {
-      outDir: 'dist/renderer',
+      outDir: "dist/renderer",
       rollupOptions: {
-        input: path.resolve('./src/renderer/index.html'), // Ensure this path is correct
-      }
-    }
-  }
+        input: path.resolve("./src/renderer/index.html"),
+      },
+    },
+  },
 });

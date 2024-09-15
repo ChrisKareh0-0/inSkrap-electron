@@ -1,4 +1,4 @@
-import { app, BrowserWindow } from "electron";
+import { app, BrowserWindow, ipcMain } from "electron";
 import path from "path";
 import { dirname } from "path";
 import { fileURLToPath } from "url";
@@ -40,9 +40,11 @@ function createWindow() {
     height: 700,
     minWidth: 900,
     minHeight: 700,
+    frame: false,
+    titleBarStyle: "hidden",
     webPreferences: {
-      preload: path.resolve(dirName, "../preload/preload.mjs"),
-      nodeIntegration: true,
+      preload: path.resolve(dirName, "../preload/preload.js"),
+      nodeIntegration: false,
       contextIsolation: true,
     },
   });
@@ -52,6 +54,32 @@ function createWindow() {
   } else {
     win.loadFile(path.resolve(dirName, "../renderer/index.html"));
   }
+
+  // IPC Handlers
+  ipcMain.on("window-minimize", () => {
+    const focusedWindow = BrowserWindow.getFocusedWindow();
+    if (focusedWindow) {
+      focusedWindow.minimize();
+    }
+  });
+
+  ipcMain.on("window-maximize", () => {
+    const focusedWindow = BrowserWindow.getFocusedWindow();
+    if (focusedWindow) {
+      if (focusedWindow.isMaximized()) {
+        focusedWindow.unmaximize();
+      } else {
+        focusedWindow.maximize();
+      }
+    }
+  });
+
+  ipcMain.on("window-close", () => {
+    const focusedWindow = BrowserWindow.getFocusedWindow();
+    if (focusedWindow) {
+      focusedWindow.close();
+    }
+  });
 }
 
 app.whenReady().then(() => {

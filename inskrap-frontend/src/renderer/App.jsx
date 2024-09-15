@@ -5,11 +5,13 @@ import NeuralNoiseBackground from "./Components/background";
 import SearchPage from "./Pages/searchPage";
 import "./App.css";
 import AccountPage from "./Pages/accountPage";
+import TitleBar from "./Components/TitleBar";
 
 function App() {
   return (
     <HashRouter>
       <div className="App">
+        <TitleBar />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/search" element={<SearchPage />} />
