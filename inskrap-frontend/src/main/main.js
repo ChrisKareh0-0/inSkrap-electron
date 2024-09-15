@@ -36,8 +36,10 @@ function startPythonBackend() {
 
 function createWindow() {
   const win = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: 900,
+    height: 700,
+    minWidth: 900,
+    minHeight: 700,
     webPreferences: {
       preload: path.resolve(dirName, "../preload/preload.mjs"),
       nodeIntegration: true,
