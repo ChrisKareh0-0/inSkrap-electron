@@ -1,11 +1,23 @@
 import React from "react";
 import "./modal.css";
 import { useState } from "react";
+import Switch from "./Switch";
 
-// Google voice integration submission modal
 function Modal({ isModalVisible, onClose }) {
   const [useCheckbox, setUseCheckbox] = useState(false);
   const [inputValue, setInputValue] = useState("");
+
+  // Toggle button states
+  const [email, setEmail] = useState(false);
+  const [gvoice, setGVoice] = useState(false);
+
+  const toggleEmailSwitch = () => {
+    setEmail(!email);
+  };
+
+  const toggleGVoiceSwitch = () => {
+    setGVoice(!gvoice);
+  };
 
   const handleBackdropClick = (e) => {
     onClose();
@@ -23,13 +35,16 @@ function Modal({ isModalVisible, onClose }) {
     setInputValue(e.target.value);
   };
 
-  const isSubmitEnabled = useCheckbox && inputValue.trim() !== "";
+  const isSubmitEnabled =
+    useCheckbox && inputValue.trim() !== "" && (gvoice || email);
 
   const handleSubmit = () => {
     // TODO: Backend connection
 
     // Reset the form after submission
     setUseCheckbox(false);
+    setEmail(false);
+    setGVoice(false);
     setInputValue("");
     onClose();
   };
@@ -49,9 +64,34 @@ function Modal({ isModalVisible, onClose }) {
         <h2 className="modal-header">Create Message</h2>
         <h3 className="modal-subheader">
           This is where you create a message to be broadcasted for all phone
-          numbers you discovered in your search.{" "}
+          numbers you discovered in your search. Start by selecting your
+          broadcast platforms below.{" "}
           <span>Clicking submit will broadcast the message!</span>
         </h3>
+
+        <div className="broadcast-toggles">
+          <div className="grouped-toggle">
+            <p
+              style={{
+                color: email ? "rgb(0, 150, 0)" : "",
+              }}
+            >
+              Email
+            </p>
+            <Switch toggleSwitch={toggleEmailSwitch} toggleValue={email} />
+          </div>
+          <div className="grouped-toggle">
+            <p
+              style={{
+                color: gvoice ? "rgb(0, 150, 0)" : "",
+              }}
+            >
+              GVoice
+            </p>
+            <Switch toggleSwitch={toggleGVoiceSwitch} toggleValue={gvoice} />
+          </div>
+        </div>
+
         <input
           type="text"
           placeholder="Enter the message here"
@@ -59,6 +99,7 @@ function Modal({ isModalVisible, onClose }) {
           value={inputValue}
           onChange={handleInputChange}
         />
+
         <label className="checkbox-container">
           <input
             className="unlock-checkbox"
