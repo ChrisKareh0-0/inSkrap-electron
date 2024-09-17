@@ -3,16 +3,19 @@ import { useNavigate } from "react-router-dom";
 import "./signup.css";
 
 // Reusable input field component
-const InputField = ({ label, type, placeholder, value, onChange }) => (
+const InputField = ({ label, type, placeholder, value, onChange, tooltip }) => (
   <div className="signup-container">
     <label>{label}</label>
-    <input
-      className="themed-input"
-      type={type}
-      placeholder={placeholder}
-      value={value}
-      onChange={onChange}
-    />
+    <div className="input-with-tooltip">
+      <input
+        className="themed-input"
+        type={type}
+        placeholder={placeholder}
+        value={value}
+        onChange={onChange}
+      />
+      {tooltip && <span className="tooltip-text">{tooltip}</span>}
+    </div>
   </div>
 );
 
@@ -36,6 +39,7 @@ function Signup({ changeAccountMethod }) {
     expirationDate: "",
     cvv: "",
     address: "",
+    country: "",
   });
 
   // Form validity states
@@ -64,9 +68,9 @@ function Signup({ changeAccountMethod }) {
       const { cardName, cardNumber, expirationDate, cvv, address } = fields;
       return (
         cardName &&
-        cardNumber.length >= 8 &&
+        cardNumber.length >= 12 &&
         expirationDate &&
-        cvv.length === 3 &&
+        (cvv.length === 3 || cvv.length === 4) &&
         address
       );
     }
@@ -108,6 +112,7 @@ function Signup({ changeAccountMethod }) {
                 placeholder="Enter your first name"
                 value={personalDetails.firstName}
                 onChange={handlePersonalChange("firstName")}
+                tooltip="Your first name as it appears on official documents"
               />
               <InputField
                 label="Last Name:"
@@ -115,6 +120,7 @@ function Signup({ changeAccountMethod }) {
                 placeholder="Enter your last name"
                 value={personalDetails.lastName}
                 onChange={handlePersonalChange("lastName")}
+                tooltip="Your last name as it appears on official documents"
               />
               <InputField
                 label="Email:"
@@ -122,6 +128,7 @@ function Signup({ changeAccountMethod }) {
                 placeholder="Enter your email"
                 value={personalDetails.email}
                 onChange={handlePersonalChange("email")}
+                tooltip="An email such as inskrap@gmail.com"
               />
               <InputField
                 label="Password:"
@@ -129,6 +136,7 @@ function Signup({ changeAccountMethod }) {
                 placeholder="Create a password"
                 value={personalDetails.password}
                 onChange={handlePersonalChange("password")}
+                tooltip="A password with a minimum of 8 characters"
               />
               <InputField
                 label="Confirm Password:"
@@ -136,24 +144,35 @@ function Signup({ changeAccountMethod }) {
                 placeholder="Confirm your password"
                 value={personalDetails.confirmPassword}
                 onChange={handlePersonalChange("confirmPassword")}
+                tooltip="Rewrite the password for confirmation"
               />
             </div>
           ) : (
             <div className="payment-details-container">
               <h2>Payment Info</h2>
               <InputField
-                label="Cardholder's Name:"
+                label="Name on card:"
                 type="text"
-                placeholder="Enter the cardholder's name"
+                placeholder="Enter the card name"
                 value={paymentInfo.cardName}
                 onChange={handlePaymentChange("cardName")}
+                tooltip="Name on your card, usually card owner's name"
               />
               <InputField
                 label="Card Number:"
-                type="number"
+                type="text"
                 placeholder="Enter the card number"
                 value={paymentInfo.cardNumber}
                 onChange={handlePaymentChange("cardNumber")}
+                tooltip="Card number, usually 14-16 digits"
+              />
+              <InputField
+                label="CVV/CVC Code:"
+                type="text"
+                placeholder="Enter the code"
+                value={paymentInfo.cvv}
+                onChange={handlePaymentChange("cvv")}
+                tooltip="3 or 4-digit security code found on your card"
               />
               <InputField
                 label="Expiration Date:"
@@ -161,20 +180,23 @@ function Signup({ changeAccountMethod }) {
                 placeholder="Enter the expiration date"
                 value={paymentInfo.expirationDate}
                 onChange={handlePaymentChange("expirationDate")}
+                tooltip="Expiration date of the card"
               />
               <InputField
-                label="CVV/CVC Code:"
-                type="number"
-                placeholder="Enter the code"
-                value={paymentInfo.cvv}
-                onChange={handlePaymentChange("cvv")}
-              />
-              <InputField
-                label="Address:"
+                label="Billing Address:"
                 type="text"
                 placeholder="Enter your full address"
                 value={paymentInfo.address}
                 onChange={handlePaymentChange("address")}
+                tooltip="The address linked to your card for verification of purchases"
+              />
+              <InputField
+                label="Country:"
+                type="text"
+                placeholder="Enter your country"
+                value={paymentInfo.country}
+                onChange={handlePaymentChange("country")}
+                tooltip="The country where your billing address is located"
               />
             </div>
           )}

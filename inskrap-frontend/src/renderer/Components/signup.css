@@ -34,7 +34,7 @@
   color: rgb(0, 140, 0);
   font-weight: 500;
   cursor: pointer;
-  transition: 0.2s;
+  transition: 0.2s ease;
 }
 
 .switch-method-text:hover,
@@ -51,6 +51,10 @@
   justify-content: center;
 }
 
+.personal-details-container h2 {
+  line-height: 0;
+}
+
 .payment-details-container {
   width: 100%;
   display: flex;
@@ -60,6 +64,10 @@
   justify-content: center;
 }
 
+.payment-details-container h2 {
+  line-height: 0;
+}
+
 .fade {
   max-width: 100%;
   display: flex;
@@ -67,7 +75,7 @@
   align-items: center;
   justify-content: center;
   opacity: 0;
-  transition: opacity 0.25s ease-in-out;
+  transition: 0.2s ease;
 }
 
 .fade-in {
@@ -82,4 +90,53 @@
   width: 100%;
   display: flex;
   gap: 1rem;
+}
+
+.input-with-tooltip {
+  width: 100%;
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip-text {
+  visibility: hidden;
+  background-color: rgb(0, 60, 0);
+  color: white;
+  text-align: center;
+  padding: 5px 10px;
+  border-radius: 5px;
+  position: absolute;
+  bottom: 130%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1;
+  min-width: fit-content;
+  opacity: 0;
+  transition: 0.2s ease;
+  white-space: nowrap;
+  font-size: 0.9rem;
+  box-shadow: 0px 0px 8px rgb(0, 60, 0, 0.8);
+  transform: translateX(-50%) translateY(5px);
+}
+
+.tooltip-text::before {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 5px;
+  border-style: solid;
+  border-color: rgb(0, 60, 0) transparent transparent transparent;
+}
+
+.input-with-tooltip input:hover ~ .tooltip-text,
+.input-with-tooltip input:focus ~ .tooltip-text {
+  visibility: visible;
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+.input-with-tooltip .tooltip-text {
+  transition: 0.2s ease;
 }
