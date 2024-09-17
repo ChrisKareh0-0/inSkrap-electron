@@ -45,11 +45,13 @@
     "concurrently": "^8.2.2",
     "dotenv": "^16.4.5",
     "electron-vite": "^2.3.0",
+    "jspdf-autotable": "^3.8.3",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.25.1",
     "socket.io-client": "^4.7.5",
-    "wait-on": "^8.0.0"
+    "wait-on": "^8.0.0",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@types/react": "^18.3.3",
