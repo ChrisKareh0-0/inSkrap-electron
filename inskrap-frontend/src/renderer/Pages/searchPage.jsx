@@ -1,7 +1,9 @@
-import React from "react";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import jsPDF from "jspdf";
+import "jspdf-autotable";
+import * as XLSX from "xlsx";
 import "./CSS/searchPage.css";
 import Modal from "../Components/modal";
 
@@ -41,6 +43,71 @@ function SearchPage() {
     const phoneNumbersExist = results.some((result) => result.phone);
     setHasPhoneNumbers(phoneNumbersExist);
   }, [results]);
+
+  // Function to export data to PDF
+  const exportToPDF = () => {
+    const doc = new jsPDF();
+    doc.text("Search Results", 20, 10);
+  
+    const tableColumn = ["Title", "Link", "Website", "Phone"];
+    const tableRows = [];
+  
+    // Add rows for the table excluding the "Map Link" text in the Link column
+    results.forEach((result) => {
+      const rowData = [
+        result.title,
+        "", // Leave the Link column empty for now, we'll add the link later
+        result.website || "No website",
+        result.phone || "No phone",
+      ];
+      tableRows.push(rowData);
+    });
+  
+    // Generate the table without the placeholder link
+    doc.autoTable({
+      head: [tableColumn],
+      body: tableRows,
+      columnStyles: {
+        // Custom width for Link and Phone columns
+        0: {cellWidth: 50},
+        1: { cellWidth: 40 }, // Link column
+        3: { cellWidth: 40 }, // Phone column
+      },
+      didDrawCell: (data) => {
+        // Check if we are in the "Link" column (index 1)
+        if (data.column.index === 1) {
+          const result = results[data.row.index];
+          if (result && result.link) {
+            // Add clickable "Map Link" button
+            doc.textWithLink("Map Link", data.cell.x + 2, data.cell.y + 6, {
+              url: result.link,
+            });
+          }
+        }
+      },
+    });
+  
+    doc.save("search_results.pdf");
+  };
+  
+  
+  
+  
+
+  // Function to export data to Excel
+  const exportToExcel = () => {
+    const worksheet = XLSX.utils.json_to_sheet(results.map((result) => ({
+      Title: result.title,
+      Link: result.link,
+      Website: result.website || "No website",
+      Phone: result.phone || "No phone",
+    })));
+
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Search Results");
+
+    XLSX.writeFile(workbook, "search_results.xlsx");
+  };
 
   return (
     <>
@@ -95,58 +162,77 @@ function SearchPage() {
           </div>
         )}
 
-        {!loading && (
+        {!loading && results.length > 0 && (
           <div>
             <h2 style={{ color: "#fff" }}>Results</h2>
             <p style={{ color: "#fff" }}>Total Results: {results.length}</p>
-            {results.length > 0 && (
-              <div>
-                <table className="search-table">
-                  <thead>
-                    <tr>
-                      <th className="title-th">Title</th>
-                      <th>Link</th>
-                      <th>Website</th>
-                      <th className="phone-th">Phone</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {results.map((result, index) => (
-                      <tr key={index}>
-                        <td>{result.title}</td>
-                        <td>
+            <div>
+              {/* Export Buttons */}
+              <div className="export-buttons">
+                <button onClick={exportToPDF}>Export to PDF</button>
+                <button onClick={exportToExcel}>Export to Excel</button>
+                <button className="Btn">
+                  <svg
+                    class="svgIcon"
+                    viewBox="0 0 384 512"
+                    height="1em"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M169.4 470.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 370.8 224 64c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 306.7L54.6 265.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z"
+                    ></path>
+                  </svg>
+                  <span class="icon2"></span>
+                  <span class="tooltip">Export</span>
+              </button>
+              </div>
+              <table className="search-table">
+                <thead>
+                  <tr>
+                    <th className="title-th">Title</th>
+                    <th>Link</th>
+                    <th>Website</th>
+                    <th className="phone-th">Phone</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {results.map((result, index) => (
+                    <tr key={index}>
+                      <td>{result.title}</td>
+                      <td>
+                        <a
+                          href={result.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          <button>Map Link</button>
+                        </a>
+                      </td>
+                      <td>
+                        {result.website ? (
                           <a
-                            href={result.link}
+                            href={result.website}
                             target="_blank"
                             rel="noopener noreferrer"
                           >
-                            <button>Map Link</button>
+                            <button>Website</button>
                           </a>
-                        </td>
-                        <td>
-                          {result.website ? (
-                            <a
-                              href={result.website}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                            >
-                              <button>Website</button>
-                            </a>
-                          ) : (
-                            <span>No website detected</span>
-                          )}
-                        </td>
-                        {result.phone ? (
-                          <td>{result.phone}</td>
                         ) : (
-                          <td>No phone detected</td>
+                          <span>No website detected</span>
                         )}
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            )}
+                      </td>
+                      {result.phone ? (
+                        <td>{result.phone}</td>
+                      ) : (
+                        <td>No phone detected</td>
+                      )}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+
+              
+            </div>
           </div>
         )}
       </div>
