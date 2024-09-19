@@ -115,3 +115,60 @@ input:focus {
 .themed-input:focus::placeholder {
   color: var(--input-hover-color);
 }
+
+/* Tooltips */
+.element-with-tooltip {
+  width: 100%;
+  position: relative;
+  display: inline-block;
+}
+.tooltip-text {
+  visibility: hidden;
+  background-color: rgb(0, 60, 0);
+  color: white;
+  text-align: center;
+  padding: 5px 10px;
+  border-radius: 5px;
+  position: absolute;
+  bottom: 130%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1;
+  min-width: fit-content;
+  opacity: 0;
+  transition: 0.2s ease;
+  white-space: nowrap;
+  font-size: 0.9rem;
+  box-shadow: 0px 0px 8px rgb(0, 60, 0, 0.8);
+  transform: translateX(-50%) translateY(5px);
+}
+.tooltip-text::before {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 5px;
+  border-style: solid;
+  border-color: rgb(0, 60, 0) transparent transparent transparent;
+}
+.element-with-tooltip input:hover ~ .tooltip-text,
+.element-with-tooltip input:focus ~ .tooltip-text,
+.element-with-tooltip button:hover ~ .tooltip-text,
+.element-with-tooltip button:focus ~ .tooltip-text {
+  visibility: visible;
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+.element-with-tooltip .tooltip-text {
+  transition: 0.2s ease;
+}
+
+/* New styles for disabled button tooltip */
+.element-with-tooltip button:disabled ~ .tooltip-text {
+  background-color: gray;
+  box-shadow: 0px 0px 8px rgb(128, 128, 128, 0.8);
+}
+.element-with-tooltip button:disabled ~ .tooltip-text::before {
+  border-color: gray transparent transparent transparent;
+}

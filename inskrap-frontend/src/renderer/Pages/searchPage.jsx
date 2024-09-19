@@ -64,29 +64,51 @@ function SearchPage() {
         <form className="search-form" onSubmit={handleSubmit}>
           <div className="search-container">
             <label>Keyword:</label>
-            <input
-              className="themed-input"
-              type="text"
-              value={keyword}
-              placeholder="Enter keyword"
-              onChange={(e) => setKeyword(e.target.value)}
-              required
-            />
+            <div className="element-with-tooltip">
+              <input
+                className="themed-input"
+                type="text"
+                value={keyword}
+                placeholder="Enter keyword"
+                onChange={(e) => setKeyword(e.target.value)}
+                required
+              />
+              <span className="tooltip-text">
+                Enter a keyword such as: <strong>Software</strong>
+              </span>
+            </div>
           </div>
           <div className="search-container">
             <label>Location:</label>
-            <input
-              className="themed-input"
-              type="text"
-              value={location}
-              placeholder="Enter location"
-              onChange={(e) => setLocation(e.target.value)}
-              required
-            />
+            <div className="element-with-tooltip">
+              <input
+                className="themed-input"
+                type="text"
+                value={location}
+                placeholder="Enter location"
+                onChange={(e) => setLocation(e.target.value)}
+                required
+              />
+              <span className="tooltip-text">
+                Enter a location such as: <strong>Beirut, Lebanon</strong>
+              </span>
+            </div>
           </div>
-          <button className="themed-button" type="submit">
-            Search
-          </button>
+          <div className="element-with-tooltip">
+            <button
+              className="themed-button"
+              type="submit"
+              disabled={loading}
+              style={{
+                backgroundColor: loading ? "gray" : "",
+              }}
+            >
+              Search
+            </button>
+            <span className="tooltip-text">
+              Start searching with the data you entered
+            </span>
+          </div>
         </form>
 
         {loading && (

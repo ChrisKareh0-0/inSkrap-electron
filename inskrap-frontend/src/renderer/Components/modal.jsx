@@ -64,8 +64,8 @@ function Modal({ isModalVisible, onClose }) {
         <h2 className="modal-header">Create Message</h2>
         <h3 className="modal-subheader">
           This is where you create a message to be broadcasted for all phone
-          numbers you discovered in your search. Start by selecting your
-          broadcast platforms below.{" "}
+          numbers or emails you discovered in your search. Start by selecting
+          your broadcast platforms below.{" "}
           <span>Clicking submit will broadcast the message!</span>
         </h3>
 
@@ -111,16 +111,21 @@ function Modal({ isModalVisible, onClose }) {
           <span>Unlock the submission button?</span>
         </label>
         <div className="modal-button-container">
-          <button
-            onClick={handleSubmit}
-            className="themed-button"
-            disabled={!isSubmitEnabled}
-            style={{
-              backgroundColor: isSubmitEnabled ? "" : "gray",
-            }}
-          >
-            Submit
-          </button>
+          <div className="element-with-tooltip">
+            <button
+              onClick={handleSubmit}
+              className="themed-button"
+              disabled={!isSubmitEnabled}
+              style={{
+                backgroundColor: isSubmitEnabled ? "" : "gray",
+              }}
+            >
+              Submit
+            </button>
+            <span className="tooltip-text">
+              Submit the message and start the broadcast
+            </span>
+          </div>
         </div>
       </div>
     </div>

@@ -6,7 +6,7 @@ import "./signup.css";
 const InputField = ({ label, type, placeholder, value, onChange, tooltip }) => (
   <div className="signup-container">
     <label>{label}</label>
-    <div className="input-with-tooltip">
+    <div className="element-with-tooltip">
       <input
         className="themed-input"
         type={type}
@@ -209,33 +209,46 @@ function Signup({ changeAccountMethod }) {
 
         {section === "Payment" ? (
           <div className="button-container">
+            <div className="element-with-tooltip">
+              <button
+                className="themed-button"
+                type="button"
+                onClick={changeSection}
+              >
+                Back
+              </button>
+              <span className="tooltip-text">Go back to personal details</span>
+            </div>
+            <div className="element-with-tooltip">
+              <button
+                className="themed-button"
+                type="submit"
+                disabled={!isPaymentInfoValid}
+                onClick={() => navigate("/search")}
+                style={{ backgroundColor: isPaymentInfoValid ? "" : "gray" }}
+              >
+                Signup
+              </button>
+              <span className="tooltip-text">
+                The button will be usable when all fields are filled correctly
+              </span>
+            </div>
+          </div>
+        ) : (
+          <div className="element-with-tooltip">
             <button
               className="themed-button"
               type="button"
+              disabled={!isPersonalDetailsValid}
               onClick={changeSection}
+              style={{ backgroundColor: isPersonalDetailsValid ? "" : "gray" }}
             >
-              Back
+              Next
             </button>
-            <button
-              className="themed-button"
-              type="submit"
-              disabled={!isPaymentInfoValid}
-              onClick={() => navigate("/search")}
-              style={{ backgroundColor: isPaymentInfoValid ? "" : "gray" }}
-            >
-              Signup
-            </button>
+            <span className="tooltip-text">
+              The button will be usable when all fields are filled correctly
+            </span>
           </div>
-        ) : (
-          <button
-            className="themed-button"
-            type="button"
-            disabled={!isPersonalDetailsValid}
-            onClick={changeSection}
-            style={{ backgroundColor: isPersonalDetailsValid ? "" : "gray" }}
-          >
-            Next
-          </button>
         )}
       </div>
     </>
