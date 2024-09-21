@@ -164,11 +164,53 @@ input:focus {
   transition: 0.2s ease;
 }
 
-/* New styles for disabled button tooltip */
 .element-with-tooltip button:disabled ~ .tooltip-text {
   background-color: gray;
   box-shadow: 0px 0px 8px rgb(128, 128, 128, 0.8);
 }
 .element-with-tooltip button:disabled ~ .tooltip-text::before {
   border-color: gray transparent transparent transparent;
+}
+
+/* Custom neon loading bar */
+.loading-bar {
+  width: 100%;
+  height: 15px;
+  background-color: rgb(0, 150, 0);
+  overflow: hidden;
+  position: fixed;
+  animation: breathe 4s infinite ease-in-out;
+  bottom: 0px;
+  left: 0px;
+  z-index: 400;
+}
+
+.loading-bar::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgb(0, 255, 0), transparent);
+  animation: loading 3s infinite ease-in-out;
+}
+
+@keyframes loading {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+@keyframes breathe {
+  0%,
+  100% {
+    box-shadow: 0 0 20px rgb(0, 150, 0);
+  }
+  50% {
+    box-shadow: 0 0 5px rgb(0, 150, 0);
+  }
 }
