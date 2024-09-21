@@ -10,6 +10,7 @@ function SearchPage() {
   const [location, setLocation] = useState("");
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [searchInitiated, setSearchInitiated] = useState(false);
   const navigate = useNavigate();
 
   const [isModalVisible, setModalVisible] = useState(false);
@@ -19,6 +20,7 @@ function SearchPage() {
     event.preventDefault();
     setLoading(true);
     setHasPhoneNumbers(false);
+    setSearchInitiated(true);
 
     try {
       // Fetch data from the Flask backend
@@ -117,7 +119,7 @@ function SearchPage() {
           </div>
         )}
 
-        {!loading && (
+        {!loading && searchInitiated && (
           <div>
             <h2 style={{ color: "#fff" }}>Results</h2>
             <p style={{ color: "#fff" }}>Total Results: {results.length}</p>
