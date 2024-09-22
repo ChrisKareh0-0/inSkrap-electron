@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import "./signup.css";
 
 // Reusable input field component
@@ -45,6 +46,10 @@ function Signup({ changeAccountMethod }) {
   // Form validity states
   const [isPersonalDetailsValid, setIsPersonalDetailsValid] = useState(false);
   const [isPaymentInfoValid, setIsPaymentInfoValid] = useState(false);
+
+  // Submission states
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const changeSection = () => {
     setFadeClass("fade fade-out");
@@ -98,10 +103,47 @@ function Signup({ changeAccountMethod }) {
     }));
   };
 
+  // Handle form submission
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError("");
+    setLoading(true);
+
+    const payload = {
+      first_name: personalDetails.firstName,
+      last_name: personalDetails.lastName,
+      email: personalDetails.email,
+      password: personalDetails.password,
+      // Assuming payment info is also stored; adjust as needed
+      payment_info: {
+        card_name: paymentInfo.cardName,
+        card_number: paymentInfo.cardNumber,
+        expiration_date: paymentInfo.expirationDate,
+        cvv: paymentInfo.cvv,
+        address: paymentInfo.address,
+        country: paymentInfo.country,
+      },
+    };
+
+    try {
+      const response = await axios.post("http://localhost:5000/register", payload);
+      // Assuming successful registration redirects to login
+      navigate("/login");
+    } catch (err) {
+      if (err.response && err.response.data && err.response.data.message) {
+        setError(err.response.data.message);
+      } else {
+        setError("An error occurred. Please try again.");
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <>
       <h1 className="page-title">inSkrap Signup</h1>
-      <form className="signup-form">
+      <form className="signup-form" onSubmit={handleSubmit}>
         <div className={fadeClass}>
           {section === "Personal" ? (
             <div className="personal-details-container">
@@ -201,56 +243,73 @@ function Signup({ changeAccountMethod }) {
             </div>
           )}
         </div>
-      </form>
-      <div>
-        <p className="switch-method-text" onClick={changeAccountMethod}>
-          Already have an account?
-        </p>
 
-        {section === "Payment" ? (
-          <div className="button-container">
+        {/* Display error message if any */}
+        {error && <p className="error-message">{error}</p>}
+
+        <div>
+          <p className="switch-method-text" onClick={changeAccountMethod}>
+            Already have an account?
+          </p>
+
+          {section === "Payment" ? (
+            <div className="button-container">
+              <div className="element-with-tooltip">
+                <button
+                  className="themed-button"
+                  type="button"
+                  onClick={changeSection}
+                >
+                  Back
+                </button>
+                <span className="tooltip-text">Go back to personal details</span>
+              </div>
+              <div className="element-with-tooltip">
+                <button
+                  className="themed-button"
+                  type="submit"
+                  disabled={!isPaymentInfoValid || loading}
+                  style={{
+                    backgroundColor:
+                      isPaymentInfoValid && !loading ? "" : "gray",
+                    cursor:
+                      isPaymentInfoValid && !loading
+                        ? "pointer"
+                        : "not-allowed",
+                  }}
+                >
+                  {loading ? "Signing up..." : "Signup"}
+                </button>
+                <span className="tooltip-text">
+                  The button will be usable when all fields are filled correctly
+                </span>
+              </div>
+            </div>
+          ) : (
             <div className="element-with-tooltip">
               <button
                 className="themed-button"
                 type="button"
+                disabled={!isPersonalDetailsValid || loading}
                 onClick={changeSection}
+                style={{
+                  backgroundColor:
+                    isPersonalDetailsValid && !loading ? "" : "gray",
+                  cursor:
+                    isPersonalDetailsValid && !loading
+                      ? "pointer"
+                      : "not-allowed",
+                }}
               >
-                Back
-              </button>
-              <span className="tooltip-text">Go back to personal details</span>
-            </div>
-            <div className="element-with-tooltip">
-              <button
-                className="themed-button"
-                type="submit"
-                disabled={!isPaymentInfoValid}
-                onClick={() => navigate("/search")}
-                style={{ backgroundColor: isPaymentInfoValid ? "" : "gray" }}
-              >
-                Signup
+                Next
               </button>
               <span className="tooltip-text">
                 The button will be usable when all fields are filled correctly
               </span>
             </div>
-          </div>
-        ) : (
-          <div className="element-with-tooltip">
-            <button
-              className="themed-button"
-              type="button"
-              disabled={!isPersonalDetailsValid}
-              onClick={changeSection}
-              style={{ backgroundColor: isPersonalDetailsValid ? "" : "gray" }}
-            >
-              Next
-            </button>
-            <span className="tooltip-text">
-              The button will be usable when all fields are filled correctly
-            </span>
-          </div>
-        )}
-      </div>
+          )}
+        </div>
+      </form>
     </>
   );
 }
