@@ -6,12 +6,14 @@ import SearchPage from "./Pages/searchPage";
 import "./App.css";
 import AccountPage from "./Pages/accountPage";
 import TitleBar from "./Components/TitleBar";
+import { Toaster, toast } from 'sonner'
 
 function App() {
   return (
     <HashRouter>
       <div className="App">
         <TitleBar />
+        <Toaster richColors/>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/search" element={<SearchPage />} />
@@ -33,8 +35,11 @@ function Home() {
             <button className="btn">
               <i className="animation"></i>Get Started
               <i className="animation"></i>
+              
             </button>
+            
           </Link>
+          
         </div>
       </div>
     </>

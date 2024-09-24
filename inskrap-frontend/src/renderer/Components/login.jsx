@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios"; // Import axios
 import "./login.css";
+import { toast } from "sonner";
 
 function Login({ changeAccountMethod }) {
   const navigate = useNavigate();
@@ -40,8 +41,10 @@ function Login({ changeAccountMethod }) {
       // Handle errors (e.g., invalid credentials)
       if (err.response && err.response.data && err.response.data.message) {
         setError(err.response.data.message);
+        toast.error(err.response.data.message)
       } else {
         setError("An error occurred. Please try again.");
+        toast.error("Failed to login try again")
       }
     } finally {
       setLoading(false); // Reset loading state
@@ -82,7 +85,7 @@ function Login({ changeAccountMethod }) {
         </div>
 
         {/* Display error message if any */}
-        {error && <p className="error-message">{error}</p>}
+        {/* {error && <p className="error-message">{error}</p>} */}
 
         <p className="switch-method-text" onClick={changeAccountMethod}>
           Don't have an account?
@@ -93,9 +96,9 @@ function Login({ changeAccountMethod }) {
             type="submit"
             disabled={loading} // Disable button while loading
           >
-            {loading ? "Logging in..." : "Login"}
+            {loading ? "Logging in" : "Login"}
           </button>
-          <span className="tooltip-text">Login to inSkrap</span>
+          {/* <span className="tooltip-text">Login to inSkrap</span> */}
         </div>
       </form>
     </>

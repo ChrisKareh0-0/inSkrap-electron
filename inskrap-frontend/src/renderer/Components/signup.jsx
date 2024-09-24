@@ -1,7 +1,9 @@
+// Signup.js
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./signup.css";
+import { toast } from "sonner";
 
 // Reusable input field component
 const InputField = ({ label, type, placeholder, value, onChange, tooltip }) => (
@@ -49,6 +51,7 @@ function Signup({ changeAccountMethod }) {
 
   // Submission states
   const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState(false);
 
   const changeSection = () => {
@@ -71,11 +74,13 @@ function Signup({ changeAccountMethod }) {
       return firstName && lastName && email && isEmailValid && isPasswordValid;
     } else if (type === "payment") {
       const { cardName, cardNumber, expirationDate, cvv, address } = fields;
+      const isCardNumberValid = /^\d{12,16}$/.test(cardNumber);
+      const isCvvValid = /^\d{3,4}$/.test(cvv);
       return (
         cardName &&
-        cardNumber.length >= 12 &&
+        isCardNumberValid &&
         expirationDate &&
-        (cvv.length === 3 || cvv.length === 4) &&
+        isCvvValid &&
         address
       );
     }
@@ -107,6 +112,7 @@ function Signup({ changeAccountMethod }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
+    setSuccess("");
     setLoading(true);
 
     const payload = {
@@ -114,7 +120,7 @@ function Signup({ changeAccountMethod }) {
       last_name: personalDetails.lastName,
       email: personalDetails.email,
       password: personalDetails.password,
-      // Assuming payment info is also stored; adjust as needed
+      // Include payment info if needed by the backend
       payment_info: {
         card_name: paymentInfo.cardName,
         card_number: paymentInfo.cardNumber,
@@ -127,8 +133,10 @@ function Signup({ changeAccountMethod }) {
 
     try {
       const response = await axios.post("http://localhost:5000/register", payload);
-      // Assuming successful registration redirects to login
-      navigate("/login");
+      toast.success("Registration successful!");
+      setTimeout(() => {
+        navigate("/search");
+      }, 2000);
     } catch (err) {
       if (err.response && err.response.data && err.response.data.message) {
         setError(err.response.data.message);
@@ -246,8 +254,10 @@ function Signup({ changeAccountMethod }) {
 
         {/* Display error message if any */}
         {error && <p className="error-message">{error}</p>}
+        {/* Display success message if any */}
+        {success && <p className="success-message">{success}</p>}
 
-        <div>
+        <div className="centered-container">
           <p className="switch-method-text" onClick={changeAccountMethod}>
             Already have an account?
           </p>
@@ -278,7 +288,7 @@ function Signup({ changeAccountMethod }) {
                         : "not-allowed",
                   }}
                 >
-                  {loading ? "Signing up..." : "Signup"}
+                  Signup
                 </button>
                 <span className="tooltip-text">
                   The button will be usable when all fields are filled correctly
