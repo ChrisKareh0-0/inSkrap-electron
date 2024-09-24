@@ -96,21 +96,17 @@ function SearchPage() {
               </span>
             </div>
           </div>
-          <div className="element-with-tooltip">
-            <button
-              className="themed-button"
-              type="submit"
-              disabled={loading}
-              style={{
-                backgroundColor: loading ? "gray" : "",
-              }}
-            >
-              Search
-            </button>
-            <span className="tooltip-text">
-              Start searching with the data you entered
-            </span>
-          </div>
+          <button
+            className="themed-button"
+            type="submit"
+            disabled={loading}
+            style={{
+              backgroundColor: loading ? "gray" : "",
+              cursor: !loading ? "pointer" : "not-allowed",
+            }}
+          >
+            Search
+          </button>
         </form>
 
         {loading && (
