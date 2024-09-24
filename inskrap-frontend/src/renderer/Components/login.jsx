@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios"; // Import axios
+import axios from "axios";
 import "./login.css";
 import { toast } from "sonner";
 
@@ -40,14 +40,20 @@ function Login({ changeAccountMethod }) {
     } catch (err) {
       // Handle errors (e.g., invalid credentials)
       if (err.response && err.response.data && err.response.data.message) {
-        setError(err.response.data.message);
-        toast.error(err.response.data.message)
+        setTimeout(() => {
+          setError(err.response.data.message);
+          toast.error(err.response.data.message);
+        }, 3000);
       } else {
-        setError("An error occurred. Please try again.");
-        toast.error("Failed to login try again")
+        setTimeout(() => {
+          setError("An error occurred. Please try again.");
+          toast.error("Failed to login try again");
+        }, 3000);
       }
     } finally {
-      setLoading(false); // Reset loading state
+      setTimeout(() => {
+        setLoading(false);
+      }, 3000);
     }
   };
 
@@ -84,23 +90,23 @@ function Login({ changeAccountMethod }) {
           </div>
         </div>
 
-        {/* Display error message if any */}
-        {/* {error && <p className="error-message">{error}</p>} */}
-
         <p className="switch-method-text" onClick={changeAccountMethod}>
           Don't have an account?
         </p>
-        <div className="element-with-tooltip">
-          <button
-            className="themed-button"
-            type="submit"
-            disabled={loading} // Disable button while loading
-          >
-            {loading ? "Logging in" : "Login"}
-          </button>
-          {/* <span className="tooltip-text">Login to inSkrap</span> */}
-        </div>
+
+        <button
+          className="themed-button"
+          type="submit"
+          disabled={loading}
+          style={{
+            backgroundColor: !loading ? "" : "gray",
+            cursor: !loading ? "pointer" : "not-allowed",
+          }}
+        >
+          Login
+        </button>
       </form>
+      {loading ? <div className="loading-bar"></div> : null}
     </>
   );
 }
