@@ -36,7 +36,9 @@ function Login({ changeAccountMethod }) {
       axios.defaults.headers.common["Authorization"] = `Bearer ${access_token}`;
 
       // Navigate to the desired page
-      navigate("/search");
+      setTimeout(() => {
+        navigate("/search");
+      }, 3000);
     } catch (err) {
       // Handle errors (e.g., invalid credentials)
       if (err.response && err.response.data && err.response.data.message) {
