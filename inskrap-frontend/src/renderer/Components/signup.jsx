@@ -77,11 +77,7 @@ function Signup({ changeAccountMethod }) {
       const isCardNumberValid = /^\d{12,16}$/.test(cardNumber);
       const isCvvValid = /^\d{3,4}$/.test(cvv);
       return (
-        cardName &&
-        isCardNumberValid &&
-        expirationDate &&
-        isCvvValid &&
-        address
+        cardName && isCardNumberValid && expirationDate && isCvvValid && address
       );
     }
     return false;
@@ -132,7 +128,10 @@ function Signup({ changeAccountMethod }) {
     };
 
     try {
-      const response = await axios.post("http://localhost:5000/register", payload);
+      const response = await axios.post(
+        "http://localhost:5000/register",
+        payload
+      );
       toast.success("Registration successful!");
       setTimeout(() => {
         navigate("/search");
@@ -272,7 +271,9 @@ function Signup({ changeAccountMethod }) {
                 >
                   Back
                 </button>
-                <span className="tooltip-text">Go back to personal details</span>
+                <span className="tooltip-text">
+                  Go back to personal details
+                </span>
               </div>
               <div className="element-with-tooltip">
                 <button
@@ -320,6 +321,7 @@ function Signup({ changeAccountMethod }) {
           )}
         </div>
       </form>
+      {loading ? <div className="loading-bar"></div> : null}
     </>
   );
 }
