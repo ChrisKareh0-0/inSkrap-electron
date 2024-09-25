@@ -5,7 +5,7 @@ import MinimizeIcon from "../assets/lower.svg";
 import MaximizeIcon from "../assets/maximize.svg";
 import ShrinkIcon from "../assets/minimize.svg";
 
-const TitleBar = () => {
+const TitleBar = ({ isBlurred }) => {
   const [windowState, setWindowState] = useState("Minimized");
 
   const changeWindowState = () => {
@@ -30,7 +30,12 @@ const TitleBar = () => {
   };
 
   return (
-    <div className="title-bar">
+    <div
+      className="title-bar"
+      style={{
+        backdropFilter: isBlurred ? "blur(12px)" : "",
+      }}
+    >
       <div className="title-bar-draggable"></div>
       <div className="title-bar-buttons">
         <button className="title-button" onClick={handleLowering}>

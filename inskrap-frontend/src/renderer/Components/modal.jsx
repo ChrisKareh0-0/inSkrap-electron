@@ -3,7 +3,7 @@ import "./modal.css";
 import { useState } from "react";
 import Switch from "./Switch";
 
-function Modal({ isModalVisible, onClose }) {
+function Modal({ isModalVisible, onClose, isBlurred }) {
   const [useCheckbox, setUseCheckbox] = useState(false);
   const [inputValue, setInputValue] = useState("");
 
@@ -53,6 +53,9 @@ function Modal({ isModalVisible, onClose }) {
     <div
       className={`modal-backdrop ${isModalVisible ? "show" : ""}`}
       onClick={handleBackdropClick}
+      style={{
+        backdropFilter: isBlurred ? "blur(12px)" : "",
+      }}
     >
       <div
         className={`modal-container ${isModalVisible ? "show" : ""}`}

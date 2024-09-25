@@ -268,4 +268,26 @@
   color: rgb(228, 228, 228);
   margin-top: 0.2rem;
 }
-/* Revamped Search Page Styles */
+
+.search-button-container {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.search-button {
+  width: 60% !important;
+}
+
+.settings-button {
+  width: 20% !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.settings-button img {
+  width: 1rem;
+}

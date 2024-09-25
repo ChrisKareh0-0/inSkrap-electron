@@ -5,7 +5,10 @@ import { useNavigate } from "react-router-dom";
 import "./CSS/searchPage.css";
 import Modal from "../Components/modal";
 
-function SearchPage() {
+import SettingsIcon from "../assets/settings.svg";
+import Settings from "../Components/settings";
+
+function SearchPage({ isBlurred, toggleBlur }) {
   const [keyword, setKeyword] = useState("");
   const [location, setLocation] = useState("");
   const [results, setResults] = useState([]);
@@ -14,6 +17,7 @@ function SearchPage() {
   const navigate = useNavigate();
 
   const [isModalVisible, setModalVisible] = useState(false);
+  const [isSettingsVisible, setSettingsVisible] = useState(false);
   const [hasPhoneNumbers, setHasPhoneNumbers] = useState(false);
 
   const handleSubmit = async (event) => {
@@ -96,17 +100,26 @@ function SearchPage() {
               </span>
             </div>
           </div>
-          <button
-            className="themed-button"
-            type="submit"
-            disabled={loading}
-            style={{
-              backgroundColor: loading ? "gray" : "",
-              cursor: !loading ? "pointer" : "not-allowed",
-            }}
-          >
-            Search
-          </button>
+          <div className="search-button-container">
+            <button
+              className="themed-button search-button"
+              type="submit"
+              disabled={loading}
+              style={{
+                backgroundColor: loading ? "gray" : "",
+                cursor: !loading ? "pointer" : "not-allowed",
+              }}
+            >
+              Search
+            </button>
+            <button
+              className="themed-button settings-button"
+              type="button"
+              onClick={() => setSettingsVisible(true)}
+            >
+              <img src={SettingsIcon} alt="Settings icon" />
+            </button>
+          </div>
         </form>
 
         {loading && (
@@ -185,6 +198,14 @@ function SearchPage() {
       <Modal
         isModalVisible={isModalVisible}
         onClose={() => setModalVisible(false)}
+        isBlurred={isBlurred}
+      />
+
+      <Settings
+        isSettingsVisible={isSettingsVisible}
+        onClose={() => setSettingsVisible(false)}
+        isBlurred={isBlurred}
+        toggleBlur={toggleBlur}
       />
     </>
   );
