@@ -1,8 +1,10 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./settings.css";
 
 function Settings({ isSettingsVisible, onClose, isBlurred, toggleBlur }) {
   const [blurSwitch, setBlurSwitch] = useState(true);
+  const navigate = useNavigate();
 
   const handleBackdropClick = (e) => {
     onClose();
@@ -48,6 +50,14 @@ function Settings({ isSettingsVisible, onClose, isBlurred, toggleBlur }) {
             </div>
           </div>
         </div>
+        <button
+          className="themed-button"
+          type="button"
+          style={{ marginTop: "0.5rem" }}
+          onClick={() => navigate("/")}
+        >
+          Sign Out
+        </button>
       </div>
     </div>
   );
