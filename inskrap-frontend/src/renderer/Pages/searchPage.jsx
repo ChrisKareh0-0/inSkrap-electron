@@ -61,6 +61,17 @@ function SearchPage() {
             </span>
           </div>
         </button>
+        <button className="history-button" onClick={() => navigate("/history")}>
+            <div className="button-box">
+              <span className="button-elem">
+                {/* History Icon */}
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M12 8V12L16 14" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
+                  <path d="M20.49 11A9 9 0 1 1 3 12" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </span>
+            </div>
+          </button>
 
         <h1 className="main-title">inSkrap</h1>
         <form className="search-form" onSubmit={handleSubmit}>

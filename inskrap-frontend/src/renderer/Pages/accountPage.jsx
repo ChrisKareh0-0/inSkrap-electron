@@ -6,7 +6,7 @@ import Login from "../Components/login";
 
 function AccountPage() {
   const navigate = useNavigate();
-  const [accountMethod, setAccountMethod] = useState("Signup");
+  const [accountMethod, setAccountMethod] = useState("login");
   const [fadeClass, setFadeClass] = useState("fade fade-in");
   const animationLength = 250;
 

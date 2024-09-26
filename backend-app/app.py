@@ -18,6 +18,8 @@ bcrypt = Bcrypt(app)
 jwt = JWTManager(app)
 
 users_collection = mongo.db.users
+history_collection = mongo.db.history
+
 
 @app.route('/register', methods=['POST'])
 def register():
@@ -67,18 +69,35 @@ def protected():
 
 @app.route('/scrape', methods=['POST'])
 def scrape():
-    data = request.json
+    data = request.get_json()
     keyword = data.get('keyword')
     location = data.get('location')
+    user = get_jwt_identity()
+    user_id = user['id']
 
-    # Construct the search query
-    search_query = f"{keyword} in {location}"
-    
-    # Collect the results in a list
-    results = list(scrape_google_maps(search_query))
-    
-    # Return all results at once
-    return jsonify(results)
+    if not keyword or not location:
+        return jsonify({'message': 'Keyword and location are required'}), 400
 
-if __name__ == '__main__':
-    app.run(host='127.0.0.1', port=5000, debug=False)
+    try:
+        results = scrape_google_maps(keyword, location, user_id)
+        return jsonify(results), 200
+    except Exception as e:
+        print(f"Error during scraping: {e}")
+        return jsonify({'message': 'An error occurred during scraping'}), 500
+    
+def get_history():
+    user = get_jwt_identity()
+    user_id = user['id']
+
+    history_entries = history_collection.find({'user_id': user_id}).sort('timestamp', -1)
+    history_list = []
+    for entry in history_entries:
+        history_list.append({
+            'keyword': entry['keyword'],
+            'location': entry['location'],
+            'search_query': entry['search_query'],
+            'results': entry['results'],
+            'timestamp': entry['timestamp']
+        })
+
+    return jsonify(history_list), 200

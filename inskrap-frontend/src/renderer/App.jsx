@@ -7,6 +7,7 @@ import "./App.css";
 import AccountPage from "./Pages/accountPage";
 import TitleBar from "./Components/TitleBar";
 import { Toaster, toast } from 'sonner'
+import HistoryPage from "./Pages/HistoryPage";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/search" element={<SearchPage />} />
           <Route path="/account" element={<AccountPage />} />
+          <Route path="/history" element={<HistoryPage />} />
         </Routes>
       </div>
     </HashRouter>

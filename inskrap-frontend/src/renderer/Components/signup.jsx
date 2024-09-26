@@ -133,7 +133,14 @@ function Signup({ changeAccountMethod }) {
 
     try {
       const response = await axios.post("http://localhost:5000/register", payload);
-      toast.success("Registration successful!");
+      // Assuming the backend returns { access_token: "..." }
+      console.log("[+] Access Token ?" , response);
+      const { access_token } = response;
+
+      // Store the token in localStorage
+      localStorage.setItem("access_token", access_token);
+      toast.success("Registration successful!")
+      setSuccess("Registration successful! Redirecting to search...");
       setTimeout(() => {
         navigate("/search");
       }, 2000);
@@ -288,7 +295,7 @@ function Signup({ changeAccountMethod }) {
                         : "not-allowed",
                   }}
                 >
-                  Signup
+                  {loading ? "Signing up..." : "Signup"}
                 </button>
                 <span className="tooltip-text">
                   The button will be usable when all fields are filled correctly

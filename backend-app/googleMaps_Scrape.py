@@ -1,3 +1,5 @@
+# googleMaps_Scrape.py
+
 import re
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
@@ -5,9 +7,18 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from webdriver_manager.chrome import ChromeDriverManager
-import time
+from pymongo import MongoClient
+from datetime import datetime
+import os
 
-def scrape_google_maps(search_query):
+def scrape_google_maps(keyword, location, user_id):
+    # MongoDB connection
+    client = MongoClient(os.getenv('MONGO_URI'))  # Ensure MONGO_URI is set in your environment variables
+    db = client['inskrapDB']  # Replace with your actual database name
+    history_collection = db['history']  # Collection to store history
+
+    search_query = f"{keyword} {location}"
+
     chrome_options = webdriver.ChromeOptions()
     chrome_options.add_argument('--headless')
     chrome_options.add_argument('--disable-gpu')
@@ -17,6 +28,8 @@ def scrape_google_maps(search_query):
 
     service = Service(ChromeDriverManager().install())
     driver = webdriver.Chrome(service=service, options=chrome_options)
+
+    results = []  # To store all scraped data
 
     try:
         driver.get(f'https://www.google.com/maps/search/?api=1&query={search_query}')
@@ -111,8 +124,7 @@ def scrape_google_maps(search_query):
                     span_text = span.text
                     matches = phone_pattern.findall(span_text)
                     if matches:
-                        print(f"Matched phone: {matches}")
-                    phone_numbers.extend(matches)
+                        phone_numbers.extend(matches)
 
                 unique_phone_numbers = list(set(phone_numbers))  # Removing duplicate phone numbers
                 data['phone'] = unique_phone_numbers[0] if unique_phone_numbers else None
@@ -120,7 +132,20 @@ def scrape_google_maps(search_query):
                 print(f"Error extracting phone numbers: {e}")
 
             if data.get('title'):
-                yield data  # Yield each result one by one
+                results.append(data)
+
+        # Save the search query and results to the history collection
+        history_entry = {
+            'user_id': user_id,
+            'keyword': keyword,
+            'location': location,
+            'search_query': search_query,
+            'results': results,
+            'timestamp': datetime.utcnow()
+        }
+        history_collection.insert_one(history_entry)
+
+        return results  # Return the results
 
     finally:
         driver.quit()
